@@ -14,7 +14,7 @@ port = 1080
 
 [basic]
 bot_token = [DATA EXPUNGED]
-prefix = /
+prefix = /!
 
 [language]
 lang = cmn-Hans
