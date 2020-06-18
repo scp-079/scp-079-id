@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 # SCP-079-ID - Get Telegram ID
 # Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
 #
@@ -20,27 +17,40 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from functools import wraps
 
-from pyrogram import Client
+from pyrogram.errors import FloodWait
 
-from plugins import glovar
-from plugins.session import renew
+from .etc import thread, wait_flood
 
 # Enable logging
 logger = logging.getLogger(__name__)
 
-# Renew session
-renew()
 
-# Config session
-app = Client(
-    session_name="bot",
-    bot_token=glovar.bot_token
-)
-app.start()
+def retry(func):
+    # FloodWait retry
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        result = None
+        while True:
+            try:
+                result = func(*args, **kwargs)
+            except FloodWait as e:
+                wait_flood(e)
+            except Exception as e:
+                logger.warning(f"Retry error: {e}", exc_info=True)
+                break
+            else:
+                break
+        return result
+    return wrapper
 
-# Hold
-app.idle()
 
-# Stop
-app.stop()
+def threaded(daemon: bool = True):
+    # Run with thread
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            return thread(func, args, kwargs, daemon)
+        return wrapper
+    return decorator

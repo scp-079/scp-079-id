@@ -3,4 +3,5 @@ Usage:
 <code>/id</code> - Send in group, get the group ID and your ID
 <code>/id</code> - Send in private chat, get your ID
 <code>/id @username</code> - Send in private chat, get <code>@username</code>'s ID
+
 <code>Forward channel's message to private chat</code> - Get the channel's ID

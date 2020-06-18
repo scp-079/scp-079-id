@@ -1,12 +1,22 @@
 # Mandarin Chinese (Simplified)
 
+# Admin
+admin: 管理员
+admin_group: 群管理
+admin_project: 项目管理员
+
 # Basic
 action: 执行操作
 description: 说明
 detail: 详情
+git_date: 提交时间
+git_hash: 哈希值
+project: 项目编号
 reason: 原因
+status: 状态
 status_failed: 未执行
 status_succeeded: 成功执行
+version: 版本
 
 # Command
 command_flood: 命令发送频繁，请稍后重试
@@ -16,9 +26,14 @@ command_type: 命令类别有误
 command_usage: 用法有误
 
 # Special
+action_id: 获取 ID
 channel_id: 频道 ID
 group_id: 群组 ID
 user_id: 用户 ID
+restricted_channel: 受限频道
+restricted_group: 受限群组
+restricted_reason: 受限原因
+reason_privacy: 用户开启了转发保护
 
 # Symbol
 colon: "："

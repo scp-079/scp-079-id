@@ -23,13 +23,16 @@ This bot is used to check Linux server status.
         - `command.py` : Functions about command
         - `decorators.py` : Some decorators
         - `etc.py` : Miscellaneous
+        - `file.py` : Save files
         - `filters.py` : Some filters
         - `group.py` : Functions about group
         - `telegram.py` : Some telegram functions
     - handlers
         - `command.py` : Handle commands
         - `message.py`: Handle messages
+    - `checker.py` : Check the format of config.ini
     - `glovar.py` : Global variables
+    - `session.py` : Manage bot session
 - `.gitignore` : Ignore
 - `config.ini.example` -> `config.ini` : Configuration
 - `LICENSE` : GPLv3

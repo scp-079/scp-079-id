@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 # SCP-079-ID - Get Telegram ID
 # Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
 #
@@ -21,26 +18,32 @@
 
 import logging
 
-from pyrogram import Client
-
-from plugins import glovar
-from plugins.session import renew
+from . import glovar
+from .functions.file import delete_file, save
 
 # Enable logging
 logger = logging.getLogger(__name__)
 
-# Renew session
-renew()
 
-# Config session
-app = Client(
-    session_name="bot",
-    bot_token=glovar.bot_token
-)
-app.start()
+def renew() -> bool:
+    # Renew the session
+    result = False
 
-# Hold
-app.idle()
+    try:
+        if not glovar.token:
+            glovar.token = glovar.bot_token
+            save("token")
+            return False
 
-# Stop
-app.stop()
+        if glovar.token == glovar.bot_token:
+            return False
+
+        delete_file("bot.session")
+        glovar.token = glovar.bot_token
+        save("token")
+
+        result = True
+    except Exception as e:
+        logger.warning(f"Renew error: {e}", exc_info=True)
+
+    return result

@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 # SCP-079-ID - Get Telegram ID
 # Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
 #
@@ -20,27 +17,34 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from typing import Optional
 
-from pyrogram import Client
+from pyrogram import Chat, Client
 
-from plugins import glovar
-from plugins.session import renew
+from .. import glovar
+from .telegram import get_chat
 
 # Enable logging
 logger = logging.getLogger(__name__)
 
-# Renew session
-renew()
 
-# Config session
-app = Client(
-    session_name="bot",
-    bot_token=glovar.bot_token
-)
-app.start()
+def get_group(client: Client, gid: int, cache: bool = True) -> Optional[Chat]:
+    # Get the group
+    result = None
 
-# Hold
-app.idle()
+    try:
+        the_cache = glovar.chats.get(gid)
 
-# Stop
-app.stop()
+        if cache and the_cache:
+            return the_cache
+
+        result = get_chat(client, gid)
+
+        if not result:
+            return result
+
+        glovar.chats[gid] = result
+    except Exception as e:
+        logger.warning(f"Get group error: {e}", exc_info=True)
+
+    return result
