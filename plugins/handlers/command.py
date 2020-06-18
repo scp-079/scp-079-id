@@ -23,7 +23,7 @@ from pyrogram import Client, Filters, Message
 
 from .. import glovar
 from ..functions.command import command_error, get_command_type
-from ..functions.etc import bold, code, lang, mention_id, thread
+from ..functions.etc import bold, code, get_readable_time, lang, mention_id, thread
 from ..functions.filters import from_user, test_group
 from ..functions.group import get_group
 from ..functions.telegram import resolve_username, send_message
@@ -197,11 +197,13 @@ def version(client: Client, message: Message) -> bool:
         git_date = run("git log -1 --format='%at' | xargs -I{} date -d @{} +'%Y/%m/%d %H:%M:%S'",
                        stdout=PIPE, shell=True)
         git_date = git_date.stdout.decode()
+        command_date = get_readable_time(message.date, "%Y/%m/%d %H:%M:%S")
         text = (f"{lang('admin')}{lang('colon')}{mention_id(aid)}\n\n"
                 f"{lang('project')}{lang('colon')}{code(glovar.sender)}\n"
                 f"{lang('version')}{lang('colon')}{code(glovar.version)}\n"
                 f"{lang('git_hash')}{lang('colon')}{code(git_hash)}\n"
-                f"{lang('git_date')}{lang('colon')}{code(git_date)}\n")
+                f"{lang('git_date')}{lang('colon')}{code(git_date)}\n"
+                f"{lang('command_date')}{lang('colon')}{code(command_date)}\n")
 
         # Send the report message
         result = send_message(client, cid, text, mid)
