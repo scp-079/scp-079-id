@@ -1,12 +1,21 @@
 This bot can help you to get the ID of user, channel, and group.
 
-Command:
+<code>------------------------</code>
+
+<b>Command:</b>
 
 <code>/id</code> - Send in group, get the group ID and your ID
+<code>/id</code> - Send in group replied to someone, get the group ID ,your ID, and the replied user's ID
 <code>/id</code> - Send in private chat, get your ID
 <code>/id @username</code> - Send in private chat, get <code>@username</code>'s ID
 
-Forward:
+<code>------------------------</code>
+
+<b>Forward:</b>
 
 <code>Forward channel's message to private chat</code> - Get the channel's ID
 <code>Forward channel's message to private chat</code> - Get the channel's ID
+
+<code>------------------------</code>
+
+When checking the ID of a group or channel, it will also check whether the group or channel is restricted by Telegram. If it is restricted, information such as the reason for the restriction will also be displayed.

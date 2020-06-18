@@ -30,6 +30,7 @@ action_id: 获取 ID
 channel_id: 频道 ID
 group_id: 群组 ID
 user_id: 用户 ID
+replied_id: 被回复用户 ID
 restricted_channel: 受限频道
 restricted_group: 受限群组
 restricted_reason: 受限原因
