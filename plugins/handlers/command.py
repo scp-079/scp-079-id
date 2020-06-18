@@ -45,6 +45,8 @@ def id_group(client: Client, message: Message) -> bool:
         uid = message.from_user.id
         mid = message.message_id
 
+        logger.warning(message)
+
         # Generate the text
         if message.reply_to_message and message.reply_to_message.from_user:
             text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
