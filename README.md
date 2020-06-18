@@ -1,6 +1,6 @@
 # SCP-079-ID
 
-This bot is used to check Linux server status.
+This bot is used to get the ID of user, channel, and group on Telegram.
 
 ## How to use
 
