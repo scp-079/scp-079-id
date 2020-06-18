@@ -155,6 +155,10 @@ def start(client: Client, message: Message) -> bool:
         cid = message.chat.id
         mid = message.message_id
 
+        # Check aio mode
+        if glovar.aio:
+            return False
+
         # Generate the text
         if not glovar.start_text:
             return False

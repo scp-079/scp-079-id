@@ -22,3 +22,6 @@ test_group_id = 0
 
 [language]
 lang = cmn-Hans
+
+[mode]
+aio = False

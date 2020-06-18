@@ -54,6 +54,9 @@ test_group_id: int = 0
 # [language]
 lang: str = ""
 
+# [mode]
+aio: Union[bool, str] = ""
+
 try:
     config = RawConfigParser()
     config.read("config.ini")
@@ -67,6 +70,10 @@ try:
 
     # [language]
     lang = config["language"].get("lang", lang)
+
+    # [mode]
+    aio = config["mode"].get("aio", aio)
+    aio = eval(aio)
 
     # [flag]
     broken = False
@@ -85,6 +92,9 @@ check_all(
         },
         "language": {
             "lang": lang
+        },
+        "mode": {
+            "aio": aio
         }
     },
     broken
@@ -122,7 +132,7 @@ usernames: Dict[str, Dict[str, Union[int, str]]] = {}
 #     }
 # }
 
-version: str = "0.0.2"
+version: str = "0.0.3"
 
 # Load data from TXT file
 

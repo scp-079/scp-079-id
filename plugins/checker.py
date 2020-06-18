@@ -100,6 +100,22 @@ def check_language(values: Dict[str, Union[bool, bytes, int, str]], broken: bool
     return result
 
 
+def check_mode(values: Dict[str, Union[bool, bytes, int, str]], broken: bool) -> str:
+    # Check all values in mode section
+    result = ""
+
+    for key in values:
+        if values[key] not in {False, True}:
+            result += f"[ERROR] [mode] {key} - please fill a valid boolean value\n"
+
+        if not broken or not result:
+            continue
+
+        raise_error(result)
+
+    return result
+
+
 def raise_error(error: str):
     error = "-" * 24 + f"\nBot refused to start because:\n" + "-" * 24 + f"\n{error}" + "-" * 24
     logger.critical(error)
