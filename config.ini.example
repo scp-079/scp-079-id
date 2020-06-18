@@ -1,0 +1,20 @@
+[pyrogram]
+api_id = [DATA EXPUNGED]
+api_hash = [DATA EXPUNGED]
+
+[plugins]
+root = plugins
+include =
+    handlers.command
+
+[proxy]
+enabled = False
+hostname = 127.0.0.1
+port = 1080
+
+[basic]
+bot_token = [DATA EXPUNGED]
+prefix = /
+
+[language]
+lang = cmn-Hans
