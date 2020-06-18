@@ -49,11 +49,12 @@ def id_group(client: Client, message: Message) -> bool:
         if message.reply_to_message.from_user:
             text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
                     f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
+                    f"{lang('replied_id')}{lang('colon')}{code(message.reply_to_message.from_user.id)}\n"
                     f"{lang('group_id')}{lang('colon')}{code(gid)}\n")
+
         else:
             text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
                     f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
-                    f"{lang('replied_id')}{lang('colon')}{code(message.reply_to_message.from_user.id)}\n"
                     f"{lang('group_id')}{lang('colon')}{code(gid)}\n")
 
         if not message.chat.restrictions:
