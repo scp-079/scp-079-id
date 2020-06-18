@@ -18,7 +18,7 @@ bot_token = [DATA EXPUNGED]
 prefix = /!
 
 [channels]
-test_group_id = -1001359798918
+test_group_id = 0
 
 [language]
 lang = cmn-Hans
