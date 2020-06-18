@@ -30,9 +30,9 @@ This bot is used to get the ID of user, channel, and group on Telegram.
     - handlers
         - `command.py` : Handle commands
         - `message.py`: Handle messages
-    - `checker.py` : Check the format of config.ini
+    - `checker.py` : Check the format of `config.ini`
     - `glovar.py` : Global variables
-    - `session.py` : Manage bot session
+    - `session.py` : Manage `bot.session`
 - `.gitignore` : Ignore
 - `config.ini.example` -> `config.ini` : Configuration
 - `LICENSE` : GPLv3
