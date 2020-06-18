@@ -1,0 +1,24 @@
+# Mandarin Chinese (Simplified)
+
+# Basic
+action: 执行操作
+description: 说明
+detail: 详情
+reason: 原因
+status_failed: 未执行
+status_succeeded: 成功执行
+
+# Command
+command_flood: 命令发送频繁，请稍后重试
+command_lack: 命令参数缺失
+command_para: 命令参数有误
+command_type: 命令类别有误
+command_usage: 用法有误
+
+# Special
+channel_id: 频道 ID
+group_id: 群组 ID
+user_id: 用户 ID
+
+# Symbol
+colon: "："
