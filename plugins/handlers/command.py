@@ -46,7 +46,7 @@ def id_group(client: Client, message: Message) -> bool:
         mid = message.message_id
 
         # Generate the text
-        if message.reply_to_message.from_user:
+        if message.reply_to_message and message.reply_to_message.from_user:
             text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
                     f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
                     f"{lang('replied_id')}{lang('colon')}{code(message.reply_to_message.from_user.id)}\n"
