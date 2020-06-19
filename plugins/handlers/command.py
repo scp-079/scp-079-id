@@ -144,7 +144,8 @@ def id_private(client: Client, message: Message) -> bool:
     return result
 
 
-@Client.on_message(Filters.incoming & Filters.private & ~Filters.forwarded & Filters.command(["start"], glovar.prefix)
+@Client.on_message(Filters.incoming & Filters.private & ~Filters.forwarded
+                   & Filters.command(["start", "help"], glovar.prefix)
                    & from_user)
 def start(client: Client, message: Message) -> bool:
     # Start the bot

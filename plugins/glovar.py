@@ -113,6 +113,7 @@ except Exception as e:
 # Init
 
 all_commands: List[str] = [
+    "help",
     "id",
     "start"
 ]
@@ -132,7 +133,7 @@ usernames: Dict[str, Dict[str, Union[int, str]]] = {}
 #     }
 # }
 
-version: str = "0.0.4"
+version: str = "0.0.5"
 
 # Load data from TXT file
 
