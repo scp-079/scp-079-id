@@ -21,8 +21,8 @@ from typing import Iterable, Optional, Union
 
 from pyrogram import Chat, ChatPreview, Client, InlineKeyboardMarkup, ReplyKeyboardMarkup, Message
 from pyrogram.api.types import InputPeerUser, InputPeerChannel
-from pyrogram.errors import ChatAdminRequired, ButtonDataInvalid, ChannelInvalid, ChannelPrivate, FloodWait
-from pyrogram.errors import MessageDeleteForbidden, PeerIdInvalid,  UsernameInvalid, UsernameNotOccupied
+from pyrogram.errors import ChatAdminRequired, ButtonDataInvalid, ButtonUrlInvalid, ChannelInvalid, ChannelPrivate
+from pyrogram.errors import FloodWait, MessageDeleteForbidden, PeerIdInvalid,  UsernameInvalid, UsernameNotOccupied
 
 from .etc import delay, get_int
 from .decorators import retry
@@ -165,7 +165,7 @@ def send_message(client: Client, cid: int, text: str, mid: int = None,
         )
     except FloodWait as e:
         raise e
-    except ButtonDataInvalid:
+    except (ButtonDataInvalid, ButtonUrlInvalid):
         logger.warning(f"Send message to {cid} - invalid markup: {markup}")
     except (ChannelInvalid, ChannelPrivate, ChatAdminRequired, PeerIdInvalid):
         return False
@@ -202,7 +202,7 @@ def send_report_message(secs: int, client: Client, cid: int, text: str, mid: int
         result = delay(secs, delete_messages, [client, cid, mids])
     except FloodWait as e:
         raise e
-    except ButtonDataInvalid:
+    except (ButtonDataInvalid, ButtonUrlInvalid):
         logger.warning(f"Send report message to {cid} - invalid markup: {markup}")
     except (ChannelInvalid, ChannelPrivate, ChatAdminRequired, PeerIdInvalid):
         return None

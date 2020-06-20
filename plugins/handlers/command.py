@@ -23,7 +23,7 @@ from pyrogram import Client, Filters, Message
 
 from .. import glovar
 from ..functions.command import command_error, get_command_type
-from ..functions.etc import bold, code, get_readable_time, lang, mention_id, thread
+from ..functions.etc import bold, code, general_link, get_int, get_readable_time, lang, mention_id, thread
 from ..functions.filters import from_user, test_group
 from ..functions.group import get_group
 from ..functions.telegram import resolve_username, send_message
@@ -196,17 +196,20 @@ def version(client: Client, message: Message) -> bool:
         if command_type and command_type.upper() != glovar.sender:
             return False
 
-        # Generate the text
-        git_hash = run("git rev-parse --short HEAD", stdout=PIPE, shell=True)
-        git_hash = git_hash.stdout.decode()
-        git_date = run("git log -1 --format='%at' | xargs -I{} date -d @{} +'%Y/%m/%d %H:%M:%S'",
-                       stdout=PIPE, shell=True)
-        git_date = git_date.stdout.decode()
+        # Version info
+        git_change = bool(run("git diff-index HEAD --", stdout=PIPE, shell=True).stdout.decode().strip())
+        git_date = run("git log -1 --format='%at'", stdout=PIPE, shell=True).stdout.decode()
+        git_date = get_readable_time(get_int(git_date), "%Y/%m/%d %H:%M:%S")
+        git_hash = run("git rev-parse --short HEAD", stdout=PIPE, shell=True).stdout.decode()
+        get_hash_link = f"https://github.com/scp-079/scp-079-{glovar.sender.lower()}/commit/{git_hash}"
         command_date = get_readable_time(message.date, "%Y/%m/%d %H:%M:%S")
+
+        # Generate the text
         text = (f"{lang('admin')}{lang('colon')}{mention_id(aid)}\n\n"
                 f"{lang('project')}{lang('colon')}{code(glovar.sender)}\n"
                 f"{lang('version')}{lang('colon')}{code(glovar.version)}\n"
-                f"{lang('git_hash')}{lang('colon')}{code(git_hash)}\n"
+                f"{lang('git_change')}{lang('colon')}{code(git_change)}\n"
+                f"{lang('git_hash')}{lang('colon')}{general_link(git_hash, get_hash_link)}\n"
                 f"{lang('git_date')}{lang('colon')}{code(git_date)}\n"
                 f"{lang('command_date')}{lang('colon')}{code(command_date)}\n")
 
