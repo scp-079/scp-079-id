@@ -93,7 +93,6 @@ try:
 
     # [mode]
     aio = config.get("mode", "aio", fallback=aio)
-    aio = config["mode"].get("aio", aio)
     aio = eval(aio)
 
     # [flag]
