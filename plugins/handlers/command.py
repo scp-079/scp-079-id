@@ -26,6 +26,7 @@ from ..functions.command import command_error, get_command_type
 from ..functions.etc import bold, code, general_link, get_int, get_readable_time, lang, mention_id, thread
 from ..functions.filters import from_user, test_group
 from ..functions.group import get_group
+from ..functions.link import get_username
 from ..functions.markup import get_text_and_markup
 from ..functions.telegram import resolve_username, send_message
 
@@ -90,15 +91,17 @@ def id_private(client: Client, message: Message) -> bool:
 
         # Get command type
         command_type = get_command_type(message)
+        username = get_username(command_type)
+        username = username if username else command_type
 
         # Check the command
-        if not command_type:
+        if not username:
             text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
                     f"{lang('user_id')}{lang('colon')}{code(uid)}\n")
             return thread(send_message, (client, cid, text, mid))
 
         # Get the id
-        the_type, the_id = resolve_username(client, command_type)
+        the_type, the_id = resolve_username(client, username)
 
         # Check the id
         if not the_type or the_type not in {"channel", "user"} or not the_id:

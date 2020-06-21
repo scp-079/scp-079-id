@@ -26,6 +26,7 @@ This bot is used to get the ID of user, channel, and group on Telegram.
         - `file.py` : Save files
         - `filters.py` : Some filters
         - `group.py` : Functions about group
+        - `link.py` : Functions about Telegram link
         - `markup.py` : Get reply markup
         - `telegram.py` : Some telegram functions
     - handlers

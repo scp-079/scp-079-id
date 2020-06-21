@@ -164,7 +164,7 @@ usernames: Dict[str, Dict[str, Union[int, str]]] = {}
 #     }
 # }
 
-version: str = "0.0.7"
+version: str = "0.0.8"
 
 # Load data from TXT file
 
