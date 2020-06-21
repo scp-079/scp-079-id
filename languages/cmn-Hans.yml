@@ -21,6 +21,7 @@ command_lack: 命令参数缺失
 command_para: 命令参数有误
 command_type: 命令类别有误
 command_usage: 用法有误
+error_private_para: 带参数的命令请在私聊中使用
 
 # Special
 action_id: 获取 ID

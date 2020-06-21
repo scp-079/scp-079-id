@@ -49,16 +49,22 @@ def id_group(client: Client, message: Message) -> bool:
         uid = message.from_user.id
         mid = message.message_id
 
+        # Get command type
+        command_type = get_command_type(message)
+
+        # Check the command type
+        if command_type:
+            return command_error(client, message, lang("action_id"), lang("error_private_para"), report=False)
+
         # Generate the text
         if message.reply_to_message and message.reply_to_message.from_user:
-            text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
-                    f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
+            text = (f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
+                    f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
                     f"{lang('replied_id')}{lang('colon')}{code(message.reply_to_message.from_user.id)}\n"
                     f"{lang('group_id')}{lang('colon')}{code(gid)}\n")
-
         else:
-            text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
-                    f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
+            text = (f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
+                    f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
                     f"{lang('group_id')}{lang('colon')}{code(gid)}\n")
 
         if not message.chat.restrictions:
