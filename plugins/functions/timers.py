@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 # SCP-079-ID - Get Telegram ID
 # Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
 #
@@ -21,33 +18,20 @@
 
 import logging
 
-from apscheduler.schedulers.background import BackgroundScheduler
-from pyrogram import Client
-
-from plugins import glovar
-from plugins.functions.timers import interval_hour_01
-from plugins.session import renew
+from .. import glovar
 
 # Enable logging
 logger = logging.getLogger(__name__)
 
-# Renew session
-renew()
 
-# Config session
-app = Client(
-    session_name="bot",
-    bot_token=glovar.bot_token
-)
-app.start()
+def interval_hour_01() -> bool:
+    # Execute every hour
+    result = False
 
-# Timer
-scheduler = BackgroundScheduler(job_defaults={"misfire_grace_time": 60})
-scheduler.add_job(interval_hour_01, "interval", hours=1)
-scheduler.start()
+    try:
+        # Clear started ids
+        glovar.started_ids = set()
+    except Exception as e:
+        logger.warning(f"Interval hour 01 error: {e}", exc_info=True)
 
-# Hold
-app.idle()
-
-# Stop
-app.stop()
+    return result
