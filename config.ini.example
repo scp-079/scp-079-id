@@ -20,6 +20,14 @@ prefix = /!
 [channels]
 test_group_id = 0
 
+[emoji]
+emoji_ad_single = 15
+emoji_ad_total = 30
+emoji_many = 15
+emoji_protect = \U0001F642
+emoji_wb_single = 10
+emoji_wb_total = 15
+
 [language]
 lang = cmn-Hans
 

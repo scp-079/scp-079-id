@@ -26,6 +26,7 @@ from ..functions.command import command_error, get_command_type
 from ..functions.etc import bold, code, general_link, get_int, get_readable_time, lang, mention_id, thread
 from ..functions.filters import from_user, test_group
 from ..functions.group import get_group
+from ..functions.markup import get_text_and_markup
 from ..functions.telegram import resolve_username, send_message
 
 # Enable logging
@@ -160,14 +161,15 @@ def start(client: Client, message: Message) -> bool:
         if glovar.aio:
             return False
 
-        # Generate the text
+        # Check start text
         if not glovar.start_text:
             return False
 
-        text = glovar.start_text
+        # Generate the text and markup
+        text, markup = get_text_and_markup(glovar.start_text)
 
         # Send the report message
-        thread(send_message, (client, cid, text, mid))
+        thread(send_message, (client, cid, text, mid, markup))
 
         result = True
     except Exception as e:
