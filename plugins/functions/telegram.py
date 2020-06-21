@@ -17,9 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Iterable, Optional, Union
+from typing import Iterable, List, Optional, Union
 
-from pyrogram import Chat, ChatPreview, Client, InlineKeyboardMarkup, ReplyKeyboardMarkup, Message
+from pyrogram import Chat, ChatPreview, Client, InlineKeyboardMarkup, ReplyKeyboardMarkup, Message, User
 from pyrogram.api.types import InputPeerUser, InputPeerChannel
 from pyrogram.errors import ChatAdminRequired, ButtonDataInvalid, ButtonUrlInvalid, ChannelInvalid, ChannelPrivate
 from pyrogram.errors import FloodWait, MessageDeleteForbidden, PeerIdInvalid,  UsernameInvalid, UsernameNotOccupied
@@ -81,6 +81,23 @@ def get_chat(client: Client, cid: Union[int, str]) -> Union[Chat, ChatPreview, N
         return None
     except Exception as e:
         logger.warning(f"Get chat {cid} error: {e}", exc_info=True)
+
+    return result
+
+
+@retry
+def get_users(client: Client, uids: Iterable[Union[int, str]]) -> Optional[List[User]]:
+    # Get users
+    result = None
+
+    try:
+        result = client.get_users(user_ids=uids)
+    except FloodWait as e:
+        raise e
+    except PeerIdInvalid:
+        return None
+    except Exception as e:
+        logger.warning(f"Get users {uids} error: {e}", exc_info=True)
 
     return result
 

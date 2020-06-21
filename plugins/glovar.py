@@ -26,7 +26,7 @@ from shutil import rmtree
 from typing import Dict, List, Set, Union
 
 from emoji import UNICODE_EMOJI
-from pyrogram import Chat
+from pyrogram import Chat, User
 from yaml import safe_load
 
 from .checker import check_all
@@ -164,7 +164,12 @@ usernames: Dict[str, Dict[str, Union[int, str]]] = {}
 #     }
 # }
 
-version: str = "0.0.8"
+users: Dict[int, User] = {}
+# users = {
+#     12345678: User
+# }
+
+version: str = "0.0.9"
 
 # Load data from TXT file
 

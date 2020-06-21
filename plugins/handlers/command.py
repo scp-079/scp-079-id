@@ -23,12 +23,14 @@ from pyrogram import Client, Filters, Message
 
 from .. import glovar
 from ..functions.command import command_error, get_command_type
-from ..functions.etc import bold, code, general_link, get_int, get_readable_time, lang, mention_id, thread
+from ..functions.etc import bold, code, general_link, get_full_name, get_int, get_readable_time, lang, mention_id
+from ..functions.etc import thread
 from ..functions.filters import from_user, test_group
 from ..functions.group import get_group
 from ..functions.link import get_username
 from ..functions.markup import get_text_and_markup
 from ..functions.telegram import resolve_username, send_message
+from ..functions.user import get_user
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -97,6 +99,7 @@ def id_private(client: Client, message: Message) -> bool:
         # Check the command
         if not username:
             text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                    f"{lang('user_name')}{lang('colon')}{code(get_full_name(message.from_user))}\n"
                     f"{lang('user_id')}{lang('colon')}{code(uid)}\n")
             return thread(send_message, (client, cid, text, mid))
 
@@ -109,7 +112,9 @@ def id_private(client: Client, message: Message) -> bool:
 
         # User
         if the_type == "user":
+            user = get_user(client, the_id)
             text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                    f"{lang('user_name')}{lang('colon')}{code(get_full_name(user))}\n"
                     f"{lang('user_id')}{lang('colon')}{code(the_id)}\n")
             return thread(send_message, (client, cid, text, mid))
 
@@ -123,9 +128,11 @@ def id_private(client: Client, message: Message) -> bool:
             return thread(send_message, (client, cid, text, mid))
 
         if chat.type == "channel":
-            text += f"{lang('channel_id')}{lang('colon')}{code(the_id)}\n"
+            text += (f"{lang('channel_name')}{lang('colon')}{code(chat.title)}\n"
+                     f"{lang('channel_id')}{lang('colon')}{code(the_id)}\n")
         elif chat.type == "supergroup":
-            text += f"{lang('group_id')}{lang('colon')}{code(the_id)}\n"
+            text += (f"{lang('group_name')}{lang('colon')}{code(chat.title)}\n"
+                     f"{lang('group_id')}{lang('colon')}{code(the_id)}\n")
         else:
             text += f"ID{lang('colon')}{code(the_id)}\n"
 

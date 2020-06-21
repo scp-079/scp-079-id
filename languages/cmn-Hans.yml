@@ -25,8 +25,11 @@ command_usage: 用法有误
 # Special
 action_id: 获取 ID
 channel_id: 频道 ID
+channel_name: 频道名称
 group_id: 群组 ID
+group_name: 群组名称
 user_id: 用户 ID
+user_name: 用户昵称
 replied_id: 被回复用户 ID
 restricted_channel: 受限频道
 restricted_group: 受限群组

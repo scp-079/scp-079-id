@@ -27,7 +27,7 @@ from threading import Thread, Timer
 from time import localtime, sleep, strftime, time
 from typing import Any, Callable, Optional, Union
 
-from pyrogram import Message
+from pyrogram import Message, User
 from pyrogram.errors import FloodWait
 
 from .. import glovar
@@ -132,6 +132,45 @@ def general_link(text: Union[int, str], link: str) -> str:
         result = f'<a href="{link}">{escape(text)}</a>'
     except Exception as e:
         logger.warning(f"General link error: {e}", exc_info=True)
+
+    return result
+
+
+def get_forward_name(message: Message) -> str:
+    # Get forwarded message's origin sender's name
+    result = ""
+
+    try:
+        if message.forward_from:
+            user = message.forward_from
+            result = get_full_name(user)
+        elif message.forward_sender_name:
+            result = message.forward_sender_name
+        elif message.forward_from_chat:
+            chat = message.forward_from_chat
+            result = chat.title
+    except Exception as e:
+        logger.warning(f"Get forward name error: {e}", exc_info=True)
+
+    return result
+
+
+def get_full_name(user: User) -> str:
+    # Get user's full name
+    result = ""
+
+    try:
+        if not user or user.is_deleted:
+            return ""
+
+        result = user.first_name
+
+        if not user.last_name:
+            return result
+
+        result += f" {user.last_name}"
+    except Exception as e:
+        logger.warning(f"Get full name error: {e}", exc_info=True)
 
     return result
 

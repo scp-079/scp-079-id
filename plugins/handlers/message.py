@@ -21,7 +21,7 @@ import logging
 from pyrogram import Client, Filters, Message
 
 from ..functions.command import command_error
-from ..functions.etc import bold, code, lang, thread
+from ..functions.etc import bold, code, get_forward_name, lang, thread
 from ..functions.filters import from_user
 from ..functions.telegram import send_message
 
@@ -47,11 +47,13 @@ def id_forward(client: Client, message: Message) -> bool:
         # User
         if message.forward_from:
             text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                    f"{lang('user_name')}{lang('colon')}{code(get_forward_name(message))}\n"
                     f"{lang('user_id')}{lang('colon')}{code(message.forward_from.id)}\n")
             return thread(send_message, (client, cid, text, mid))
 
         # Channel
         text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                f"{lang('channel_name')}{lang('colon')}{code(get_forward_name(message))}\n"
                 f"{lang('channel_id')}{lang('colon')}{code(message.forward_from_chat.id)}\n")
 
         if not message.forward_from_chat.restrictions:

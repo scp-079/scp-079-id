@@ -17,34 +17,34 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Optional
+from typing import Optional, Union
 
-from pyrogram import Chat, Client
+from pyrogram import Client, User
 
 from .. import glovar
-from .telegram import get_chat
+from .telegram import get_users
 
 # Enable logging
 logger = logging.getLogger(__name__)
 
 
-def get_group(client: Client, gid: int, cache: bool = True) -> Optional[Chat]:
-    # Get a group
+def get_user(client: Client, uid: Union[int, str], cache: bool = True) -> Optional[User]:
+    # Get a user
     result = None
 
     try:
-        the_cache = glovar.chats.get(gid)
+        the_cache = glovar.users.get(uid)
 
         if cache and the_cache:
             return the_cache
 
-        result = get_chat(client, gid)
+        result = get_users(client, [uid])
 
         if not result:
-            return result
+            return None
 
-        glovar.chats[gid] = result
+        glovar.users[uid] = result[0]
     except Exception as e:
-        logger.warning(f"Get group error: {e}", exc_info=True)
+        logger.warning(f"Get user error: {e}", exc_info=True)
 
     return result
