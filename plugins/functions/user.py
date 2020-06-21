@@ -43,7 +43,8 @@ def get_user(client: Client, uid: Union[int, str], cache: bool = True) -> Option
         if not result:
             return None
 
-        glovar.users[uid] = result[0]
+        result = result[0]
+        glovar.users[uid] = result
     except Exception as e:
         logger.warning(f"Get user error: {e}", exc_info=True)
 
