@@ -173,6 +173,13 @@ def start(client: Client, message: Message) -> bool:
         cid = message.chat.id
         mid = message.message_id
 
+        # Check started ids
+        if cid in glovar.started_ids:
+            return False
+
+        # Add to started ids
+        glovar.started_ids.add(cid)
+
         # Check aio mode
         if glovar.aio:
             return False

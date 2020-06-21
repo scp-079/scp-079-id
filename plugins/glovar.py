@@ -155,6 +155,9 @@ emoji_set: Set[str] = set(UNICODE_EMOJI)
 
 sender: str = "ID"
 
+started_ids: Set[int] = set()
+# started_ids = {12345678}
+
 usernames: Dict[str, Dict[str, Union[int, str]]] = {}
 # usernames = {
 #     "SCP_079": {
@@ -168,7 +171,7 @@ users: Dict[int, User] = {}
 #     12345678: User
 # }
 
-version: str = "0.1.0"
+version: str = "0.1.1"
 
 # Load data from TXT file
 
