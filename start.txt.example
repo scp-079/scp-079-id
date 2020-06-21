@@ -13,7 +13,8 @@ This bot can help you to get the ID of user, channel, and group.
 <code>/id</code>
 <i>Send in private chat, get your ID</i>
 
-<code>/id @username</code> or <code>/id https://t.me/username</code>
+<code>/id @username</code>
+<code>/id https://t.me/username</code>
 <i>Send in private chat, get @username's ID</i>
 
 <code>------------------------</code>
