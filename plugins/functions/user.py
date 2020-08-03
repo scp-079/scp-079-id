@@ -77,14 +77,24 @@ def get_info_group(chat: Chat) -> str:
     return result
 
 
-def get_info_user(user: User) -> str:
+def get_info_user(user: User, gid: int = 0, uid: int = 0, rid: int = 0) -> str:
     # Get user info text
     result = ""
 
     try:
-        text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
-                f"{lang('user_name')}{lang('colon')}{code(get_full_name(user))}\n"
-                f"{lang('user_id')}{lang('colon')}{code(user.id)}\n")
+        if gid and rid:
+            text = (f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
+                    f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                    f"{lang('replied_id')}{lang('colon')}{code(rid)}\n"
+                    f"{lang('group_id')}{lang('colon')}{code(gid)}\n")
+        elif gid:
+            text = (f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
+                    f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                    f"{lang('group_id')}{lang('colon')}{code(gid)}\n")
+        else:
+            text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                    f"{lang('user_name')}{lang('colon')}{code(get_full_name(user))}\n"
+                    f"{lang('user_id')}{lang('colon')}{code(user.id)}\n")
 
         if user.is_scam:
             text += f"{lang('scam_user')}{lang('colon')}{code('True')}\n"
@@ -97,6 +107,7 @@ def get_info_user(user: User) -> str:
                      f"{lang('restricted_reason')}{lang('colon')}" + code("-") * 16 + "\n\n")
             text += "\n\n".join(bold(f"{restriction.reason}-{restriction.platform}") + "\n" + code(restriction.text)
                                 for restriction in user.restrictions)
+            text += "\n\n"
 
         result = text
     except Exception as e:

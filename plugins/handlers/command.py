@@ -58,14 +58,9 @@ def id_group(client: Client, message: Message) -> bool:
 
         # Generate the text
         if message.reply_to_message and message.reply_to_message.from_user:
-            text = (f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
-                    f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
-                    f"{lang('replied_id')}{lang('colon')}{code(message.reply_to_message.from_user.id)}\n"
-                    f"{lang('group_id')}{lang('colon')}{code(gid)}\n")
+            text = get_info_user(message.reply_to_message.from_user, gid, uid, message.reply_to_message.from_user.id)
         else:
-            text = (f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
-                    f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
-                    f"{lang('group_id')}{lang('colon')}{code(gid)}\n")
+            text = get_info_user(message.from_user, gid, uid)
 
         if not message.chat.restrictions:
             return thread(send_message, (client, gid, text, mid))
