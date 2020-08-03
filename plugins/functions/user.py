@@ -19,13 +19,90 @@
 import logging
 from typing import Optional, Union
 
-from pyrogram import Client, User
+from pyrogram import Chat, Client, User
 
 from .. import glovar
+from .etc import bold, code, get_full_name, lang
 from .telegram import get_users
 
 # Enable logging
 logger = logging.getLogger(__name__)
+
+
+def get_info_channel(chat: Chat) -> str:
+    # Get channel info text
+    result = ""
+
+    try:
+        text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                f"{lang('channel_name')}{lang('colon')}{code(chat.title)}\n"
+                f"{lang('channel_id')}{lang('colon')}{code(chat.id)}\n")
+
+        if not chat.restrictions:
+            return text
+
+        text += (f"{lang('restricted_channel')}{lang('colon')}{code('True')}\n"
+                 f"{lang('restricted_reason')}{lang('colon')}" + code("-") * 16 + "\n\n")
+        text += "\n\n".join(bold(f"{restriction.reason}-{restriction.platform}") + "\n" + code(restriction.text)
+                            for restriction in chat.restrictions)
+
+        result = text
+    except Exception as e:
+        logger.warning(f"Get info channel error: {e}", exc_info=True)
+
+    return result
+
+
+def get_info_group(chat: Chat) -> str:
+    # Get group info text
+    result = ""
+
+    try:
+        text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                f"{lang('group_name')}{lang('colon')}{code(chat.title)}\n"
+                f"{lang('group_id')}{lang('colon')}{code(chat.id)}\n")
+
+        if not chat.restrictions:
+            return text
+
+        text += (f"{lang('restricted_group')}{lang('colon')}{code('True')}\n"
+                 f"{lang('restricted_reason')}{lang('colon')}" + code("-") * 16 + "\n\n")
+        text += "\n\n".join(bold(f"{restriction.reason}-{restriction.platform}") + "\n" + code(restriction.text)
+                            for restriction in chat.restrictions)
+
+        result = text
+    except Exception as e:
+        logger.warning(f"Get info group error: {e}", exc_info=True)
+
+    return result
+
+
+def get_info_user(user: User) -> str:
+    # Get user info text
+    result = ""
+
+    try:
+        text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                f"{lang('user_name')}{lang('colon')}{code(get_full_name(user))}\n"
+                f"{lang('user_id')}{lang('colon')}{code(user.id)}\n")
+
+        if user.is_scam:
+            text += f"{lang('scam_user')}{lang('colon')}{code('True')}\n"
+
+        if user.is_verified:
+            text += f"{lang('verified_user')}{lang('colon')}{code('True')}\n"
+
+        if user.restrictions:
+            text += (f"{lang('restricted_user')}{lang('colon')}{code('True')}\n"
+                     f"{lang('restricted_reason')}{lang('colon')}" + code("-") * 16 + "\n\n")
+            text += "\n\n".join(bold(f"{restriction.reason}-{restriction.platform}") + "\n" + code(restriction.text)
+                                for restriction in user.restrictions)
+
+        result = text
+    except Exception as e:
+        logger.warning(f"Get info user error: {e}", exc_info=True)
+
+    return result
 
 
 def get_user(client: Client, uid: Union[int, str], cache: bool = True) -> Optional[User]:

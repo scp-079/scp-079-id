@@ -21,9 +21,10 @@ import logging
 from pyrogram import Client, Filters, Message
 
 from ..functions.command import command_error
-from ..functions.etc import bold, code, get_forward_name, lang, thread
+from ..functions.etc import lang, thread
 from ..functions.filters import from_user
 from ..functions.telegram import send_message
+from ..functions.user import get_info_channel, get_info_user
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -46,25 +47,11 @@ def id_forward(client: Client, message: Message) -> bool:
 
         # User
         if message.forward_from:
-            text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
-                    f"{lang('user_name')}{lang('colon')}{code(get_forward_name(message))}\n"
-                    f"{lang('user_id')}{lang('colon')}{code(message.forward_from.id)}\n")
+            text = get_info_user(message.forward_from)
             return thread(send_message, (client, cid, text, mid))
 
         # Channel
-        text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
-                f"{lang('channel_name')}{lang('colon')}{code(get_forward_name(message))}\n"
-                f"{lang('channel_id')}{lang('colon')}{code(message.forward_from_chat.id)}\n")
-
-        if not message.forward_from_chat.restrictions:
-            return thread(send_message, (client, cid, text, mid))
-
-        text += (f"{lang('restricted_channel')}{lang('colon')}{code('True')}\n"
-                 f"{lang('restricted_reason')}{lang('colon')}" + code("-") * 16 + "\n\n")
-        text += "\n\n".join(bold(f"{restriction.reason}-{restriction.platform}") + "\n" + code(restriction.text)
-                            for restriction in message.forward_from_chat.restrictions)
-
-        # Send the report message
+        text = get_info_channel(message.forward_from_chat)
         thread(send_message, (client, cid, text, mid))
 
         result = True

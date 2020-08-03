@@ -23,14 +23,14 @@ from pyrogram import Client, Filters, Message
 
 from .. import glovar
 from ..functions.command import command_error, get_command_type
-from ..functions.etc import bold, code, general_link, get_full_name, get_int, get_readable_time, lang, mention_id
+from ..functions.etc import bold, code, general_link, get_int, get_readable_time, lang, mention_id
 from ..functions.etc import thread
 from ..functions.filters import from_user, test_group
 from ..functions.group import get_group
 from ..functions.link import get_username
 from ..functions.markup import get_text_and_markup
 from ..functions.telegram import resolve_username, send_message
-from ..functions.user import get_user
+from ..functions.user import get_user, get_info_channel, get_info_group, get_info_user
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -94,7 +94,6 @@ def id_private(client: Client, message: Message) -> bool:
     try:
         # Basic data
         cid = message.chat.id
-        uid = message.from_user.id
         mid = message.message_id
 
         # Get command type
@@ -104,9 +103,7 @@ def id_private(client: Client, message: Message) -> bool:
 
         # Check the command
         if not username:
-            text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
-                    f"{lang('user_name')}{lang('colon')}{code(get_full_name(message.from_user))}\n"
-                    f"{lang('user_id')}{lang('colon')}{code(uid)}\n")
+            text = get_info_user(message.from_user)
             return thread(send_message, (client, cid, text, mid))
 
         # Get the id
@@ -114,42 +111,28 @@ def id_private(client: Client, message: Message) -> bool:
 
         # Check the id
         if not the_type or the_type not in {"channel", "user"} or not the_id:
-            return command_error(client, message, lang("action_id"), lang("command_para"), report=False)
+            return command_error(client, message, lang("action_id"), lang("command_para"), report=False, private=True)
 
         # User
         if the_type == "user":
             user = get_user(client, the_id)
-            text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
-                    f"{lang('user_name')}{lang('colon')}{code(get_full_name(user))}\n"
-                    f"{lang('user_id')}{lang('colon')}{code(the_id)}\n")
+            text = get_info_user(user)
             return thread(send_message, (client, cid, text, mid))
 
         # Channel or group
-        text = f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
-
         chat = get_group(client, the_id)
 
         if not chat:
-            text += f"ID{lang('colon')}{code(the_id)}\n"
+            text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                    f"ID{lang('colon')}{code(the_id)}\n")
             return thread(send_message, (client, cid, text, mid))
 
         if chat.type == "channel":
-            text += (f"{lang('channel_name')}{lang('colon')}{code(chat.title)}\n"
-                     f"{lang('channel_id')}{lang('colon')}{code(the_id)}\n")
+            text = get_info_channel(chat)
         elif chat.type == "supergroup":
-            text += (f"{lang('group_name')}{lang('colon')}{code(chat.title)}\n"
-                     f"{lang('group_id')}{lang('colon')}{code(the_id)}\n")
+            text = get_info_group(chat)
         else:
-            text += f"ID{lang('colon')}{code(the_id)}\n"
-
-        if not chat.restrictions:
-            return thread(send_message, (client, cid, text, mid))
-
-        restrict_type = lang("restricted_channel") if chat.type == "channel" else lang("restricted_group")
-        text += (f"{restrict_type}{lang('colon')}{code('True')}\n"
-                 f"{lang('restricted_reason')}{lang('colon')}" + code("-") * 24 + "\n\n")
-        text += "\n\n".join(bold(f"{restriction.reason}-{restriction.platform}") + "\n" + code(restriction.text)
-                            for restriction in chat.restrictions)
+            text = ""
 
         # Send the report message
         thread(send_message, (client, cid, text, mid))

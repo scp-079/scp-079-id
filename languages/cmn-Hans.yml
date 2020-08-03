@@ -35,7 +35,10 @@ replied_id: 被回复用户 ID
 restricted_channel: 受限频道
 restricted_group: 受限群组
 restricted_reason: 受限原因
+restricted_user: 受限用户
 reason_privacy: 用户开启了转发保护
+scam_user: 诈骗用户
+verified_user: 认证用户
 
 # Symbol
 colon: "："
