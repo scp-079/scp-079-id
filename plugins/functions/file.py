@@ -20,13 +20,28 @@ import logging
 from os import remove
 from os.path import exists
 from pickle import dump
-from shutil import copyfile
+from shutil import copyfile, move
 
 from .. import glovar
 from .decorators import threaded
 
 # Enable logging
 logger = logging.getLogger(__name__)
+
+
+def copy_file(src: str, dst: str) -> bool:
+    # Copy a file
+    result = False
+
+    try:
+        if not src or not exists(src) or not dst:
+            return False
+
+        result = copyfile(src, dst) or True
+    except Exception as e:
+        logger.warning(f"Copy file error: {e}", exc_info=True)
+
+    return result
 
 
 def delete_file(path: str) -> bool:
@@ -44,6 +59,21 @@ def delete_file(path: str) -> bool:
     return result
 
 
+def move_file(src: str, dst: str) -> bool:
+    # Move a file
+    result = False
+
+    try:
+        if not src or not exists(src) or not dst:
+            return False
+
+        result = bool(move(src, dst))
+    except Exception as e:
+        logger.warning(f"Move file error: {e}", exc_info=True)
+
+    return result
+
+
 @threaded(daemon=False)
 def save(file: str) -> bool:
     # Save a global variable to a file
@@ -53,10 +83,10 @@ def save(file: str) -> bool:
         if not glovar:
             return False
 
-        with open(f"data/.{file}", "wb") as f:
+        with open(f"data/pickle/backup/{file}", "wb") as f:
             dump(eval(f"glovar.{file}"), f)
 
-        result = copyfile(f"data/.{file}", f"data/{file}") or True
+        result = copyfile(f"data/pickle/backup/{file}", f"data/pickle/{file}")
     except Exception as e:
         logger.warning(f"Save error: {e}", exc_info=True)
 

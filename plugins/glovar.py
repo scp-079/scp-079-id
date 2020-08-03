@@ -35,7 +35,7 @@ from .checker import check_all
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.WARNING,
-    filename="log",
+    filename="data/log/log",
     filemode="a"
 )
 logger = logging.getLogger(__name__)
@@ -57,7 +57,7 @@ test_group_id: int = 0
 emoji_ad_single: int = 15
 emoji_ad_total: int = 30
 emoji_many: int = 15
-emoji_protect: str = "\\U0001F642"
+emoji_protect: Union[bytes, str] = "\\U0001F642"
 emoji_wb_single: int = 10
 emoji_wb_total: int = 15
 
@@ -69,7 +69,7 @@ aio: Union[bool, str] = "False"
 
 try:
     config = RawConfigParser()
-    config.read("config.ini")
+    config.read("data/config/config.ini")
 
     # [basic]
     bot_token = config.get("basic", "bot_token", fallback=bot_token)
@@ -83,7 +83,7 @@ try:
     emoji_ad_single = int(config.get("emoji", "emoji_ad_single", fallback=emoji_ad_single))
     emoji_ad_total = int(config.get("emoji", "emoji_ad_total", fallback=emoji_ad_total))
     emoji_many = int(config.get("emoji", "emoji_many", fallback=emoji_many))
-    emoji_protect = config.get("emoji", "emoji_protect", fallback=emoji_protect)
+    emoji_protect = config.get("emoji", "emoji_protect", fallback=emoji_protect).encode()
     emoji_protect = getdecoder("unicode_escape")(emoji_protect)[0]
     emoji_wb_single = int(config.get("emoji", "emoji_wb_single", fallback=emoji_wb_single))
     emoji_wb_total = int(config.get("emoji", "emoji_wb_total", fallback=emoji_wb_total))
@@ -172,47 +172,49 @@ users: Dict[int, User] = {}
 #     12345678: User
 # }
 
-version: str = "0.1.1"
+version: str = "0.1.2"
+
+# Init dir
+try:
+    rmtree("data/tmp")
+except Exception as e:
+    logger.info(f"Remove data/tmp error: {e}")
+
+for path in ["data", "data/config", "data/pickle", "data/pickle/backup", "data/session", "data/tmp"]:
+    not exists(path) and mkdir(path)
 
 # Load data from TXT file
 
-if exists("start.txt"):
-    with open("start.txt", "r", encoding="utf-8") as f:
+if exists("data/config/start.txt"):
+    with open("data/config/start.txt", "r", encoding="utf-8") as f:
         start_text = f.read()
 else:
     start_text = ""
 
 # Load data from pickle
 
-# Init dir
-try:
-    rmtree("tmp")
-except Exception as e:
-    logger.info(f"Remove tmp error: {e}")
-
-for path in ["data", "tmp"]:
-    not exists(path) and mkdir(path)
-
 # Init data
+
+current: str = ""
 
 token: str = ""
 
 # Load data
-file_list: List[str] = ["token"]
+file_list: List[str] = ["current", "token"]
 
 for file in file_list:
     try:
         try:
-            if exists(f"data/{file}") or exists(f"data/.{file}"):
-                with open(f"data/{file}", "rb") as f:
+            if exists(f"data/pickle/{file}") or exists(f"data/pickle/backup/{file}"):
+                with open(f"data/pickle/{file}", "rb") as f:
                     locals()[f"{file}"] = pickle.load(f)
             else:
-                with open(f"data/{file}", "wb") as f:
+                with open(f"data/pickle/{file}", "wb") as f:
                     pickle.dump(eval(f"{file}"), f)
         except Exception as e:
             logger.error(f"Load data {file} error: {e}", exc_info=True)
 
-            with open(f"data/.{file}", "rb") as f:
+            with open(f"data/pickle/backup/{file}", "rb") as f:
                 locals()[f"{file}"] = pickle.load(f)
     except Exception as e:
         logger.critical(f"Load data {file} backup error: {e}", exc_info=True)

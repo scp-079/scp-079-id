@@ -25,11 +25,14 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from pyrogram import Client
 
 from plugins import glovar
-from plugins.functions.timers import interval_hour_01
-from plugins.session import renew
+from plugins.functions.timers import interval_hour_01, log_rotation
+from plugins.start import init, renew
 
 # Enable logging
 logger = logging.getLogger(__name__)
+
+# Init
+init()
 
 # Renew session
 renew()
@@ -37,13 +40,16 @@ renew()
 # Config session
 app = Client(
     session_name="bot",
-    bot_token=glovar.bot_token
+    bot_token=glovar.bot_token,
+    workdir="data/session",
+    config_file="data/config/config.ini"
 )
 app.start()
 
 # Timer
 scheduler = BackgroundScheduler(job_defaults={"misfire_grace_time": 60})
 scheduler.add_job(interval_hour_01, "interval", hours=1)
+scheduler.add_job(log_rotation, "cron", hour=0)
 scheduler.start()
 
 # Hold

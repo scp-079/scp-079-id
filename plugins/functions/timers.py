@@ -19,6 +19,8 @@
 import logging
 
 from .. import glovar
+from .etc import get_readable_time
+from .file import move_file
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -33,5 +35,22 @@ def interval_hour_01() -> bool:
         glovar.started_ids = set()
     except Exception as e:
         logger.warning(f"Interval hour 01 error: {e}", exc_info=True)
+
+    return result
+
+
+def log_rotation() -> bool:
+    # Log rotation
+    result = False
+
+    try:
+        move_file("data/log/log", f"data/log/log-{get_readable_time(the_format='%Y%m%d')}")
+
+        with open("data/log/log", "w") as f:
+            f.write("")
+
+        result = True
+    except Exception as e:
+        logger.warning(f"Log rotation error: {e}", exc_info=True)
 
     return result
