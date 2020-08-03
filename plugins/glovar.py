@@ -180,7 +180,7 @@ try:
 except Exception as e:
     logger.info(f"Remove data/tmp error: {e}")
 
-for path in ["data", "data/config", "data/pickle", "data/pickle/backup", "data/session", "data/tmp"]:
+for path in ["data", "data/config", "data/pickle", "data/pickle/backup", "data/log", "data/session", "data/tmp"]:
     not exists(path) and mkdir(path)
 
 # Load data from TXT file

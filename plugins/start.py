@@ -59,7 +59,8 @@ def version_0_1_2() -> bool:
     result = False
 
     try:
-        for path in ["data", "data/config", "data/pickle", "data/pickle/backup", "data/session", "data/tmp"]:
+        for path in ["data", "data/config", "data/pickle", "data/pickle/backup",
+                     "data/log", "data/session", "data/tmp"]:
             not exists(path) and mkdir(path)
 
         move_file("config.ini", "data/config/config.ini")
