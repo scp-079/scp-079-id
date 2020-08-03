@@ -110,7 +110,7 @@ def version_0_1_2() -> bool:
                 file = file[1:]
                 move_file(f"data/.{file}", f"data/pickle/backup/{file}")
             else:
-                move_file(f"data/{file}", f"data/backup/{file}")
+                move_file(f"data/{file}", f"data/pickle/{file}")
 
         move_file("bot.session", "data/session/bot.session")
         remove_dir("tmp")
