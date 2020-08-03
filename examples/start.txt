@@ -38,3 +38,4 @@ This bot can help you to get the ID of user, channel, and group.
 
 Document || https://scp-079.org/id/
 Source Code || https://github.com/scp-079/scp-079-id/
+Feedback || https://github.com/scp-079/scp-079-id/issues
