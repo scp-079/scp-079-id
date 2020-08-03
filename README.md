@@ -17,8 +17,8 @@ This bot is used to get the ID of user, channel, and group on Telegram.
 ## Files
 
 - examples
-   - `config.ini` -> `../data/config.ini` : Configuration example
-   - `start.txt` -> `../data/start.txt` : Start template example
+   - `config.ini` -> `../data/config/config.ini` : Configuration example
+   - `start.txt` -> `../data/config/start.txt` : Start template example
 - languages
    - `cmn-Hans.yml` : Mandarin Chinese (Simplified)
 - plugins
@@ -38,6 +38,7 @@ This bot is used to get the ID of user, channel, and group on Telegram.
     - `checker.py` : Check the format of `config.ini`
     - `glovar.py` : Global variables
     - `start.py` : Execute before client start
+    - `version.py` : Execute before main script start
 - `.gitignore` : Ignore
 - `Dockerfile` : Assemble the docker image
 - `LICENSE` : GPLv3
