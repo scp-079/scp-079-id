@@ -30,7 +30,7 @@ This bot can help you to get the ID of user, channel, and group.
 
 <code>------------------------</code>
 
-<b>Note 1:</b> When checking the ID of a group or channel, it will also check whether the group or channel is restricted by Telegram. If it is restricted, information such as the reason for the restriction will also be displayed.
+<b>Note 1:</b> When checking the ID, it will also check whether the subject is restricted by Telegram. If it is restricted, information such as the reason for the restriction will also be displayed.
 
 <b>Note 2:</b> If the bot does not respond after you send the <code>/id</code> command in the group, please try setting the bot as an administrator with arbitrary permissions.
 
