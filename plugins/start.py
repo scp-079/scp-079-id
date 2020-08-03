@@ -17,11 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from os import listdir, mkdir
-from os.path import exists, isfile, join
+from os import listdir
+from os.path import isfile, join
 
 from . import glovar
-from .functions.file import delete_file, move_file, remove_dir, save
+from .functions.file import delete_file, save
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -47,37 +47,9 @@ def init() -> bool:
             glovar.current = glovar.version
             save("current")
 
-        # Version check
-        version_0_1_2()
+        result = True
     except Exception as e:
         logger.warning(f"Init error: {e}", exc_info=True)
-
-    return result
-
-
-def version_0_1_2() -> bool:
-    result = False
-
-    try:
-        for path in ["data", "data/config", "data/pickle", "data/pickle/backup",
-                     "data/log", "data/session", "data/tmp"]:
-            not exists(path) and mkdir(path)
-
-        move_file("config.ini", "data/config/config.ini")
-        move_file("start.txt", "data/config/start.txt")
-        move_file("log", "data/log/log")
-
-        for file in files("data"):
-            if file.startswith("."):
-                file = file[1:]
-                move_file(f"data/.{file}", f"data/pickle/backup/{file}")
-            else:
-                move_file(f"data/{file}", f"data/backup/{file}")
-
-        move_file("bot.session", "data/session/bot.session")
-        remove_dir("tmp")
-    except Exception as e:
-        logger.warning(f"Version 0.1.2 error: {e}", exc_info=True)
 
     return result
 
@@ -95,7 +67,7 @@ def renew() -> bool:
         if glovar.token == glovar.bot_token:
             return False
 
-        delete_file("/data/session/bot.session")
+        delete_file("data/session/bot.session")
         glovar.token = glovar.bot_token
         save("token")
 

@@ -20,9 +20,7 @@ import logging
 import pickle
 from codecs import getdecoder
 from configparser import RawConfigParser
-from os import mkdir
 from os.path import exists
-from shutil import rmtree
 from typing import Dict, List, Set, Union
 
 from emoji import UNICODE_EMOJI
@@ -30,12 +28,10 @@ from pyrogram import Chat, User
 from yaml import safe_load
 
 from .checker import check_all
+from .version import version_control
 
-# Init dir
-exists("data/tmp") and rmtree("data/tmp")
-
-for path in ["data", "data/config", "data/pickle", "data/pickle/backup", "data/log", "data/session", "data/tmp"]:
-    not exists(path) and mkdir(path)
+# Version control
+version_control()
 
 # Enable logging
 logging.basicConfig(
