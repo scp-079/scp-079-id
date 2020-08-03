@@ -31,6 +31,12 @@ from yaml import safe_load
 
 from .checker import check_all
 
+# Init dir
+exists("data/tmp") and rmtree("data/tmp")
+
+for path in ["data", "data/config", "data/pickle", "data/pickle/backup", "data/log", "data/session", "data/tmp"]:
+    not exists(path) and mkdir(path)
+
 # Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -173,15 +179,6 @@ users: Dict[int, User] = {}
 # }
 
 version: str = "0.1.2"
-
-# Init dir
-try:
-    rmtree("data/tmp")
-except Exception as e:
-    logger.info(f"Remove data/tmp error: {e}")
-
-for path in ["data", "data/config", "data/pickle", "data/pickle/backup", "data/log", "data/session", "data/tmp"]:
-    not exists(path) and mkdir(path)
 
 # Load data from TXT file
 
