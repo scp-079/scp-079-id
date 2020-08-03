@@ -21,7 +21,7 @@ from os import listdir, mkdir
 from os.path import exists, isfile, join
 
 from . import glovar
-from .functions.file import delete_file, move_file, save
+from .functions.file import delete_file, move_file, remove_dir, save
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -75,6 +75,7 @@ def version_0_1_2() -> bool:
                 move_file(f"data/{file}", f"data/backup/{file}")
 
         move_file("bot.session", "data/session/bot.session")
+        remove_dir("tmp")
     except Exception as e:
         logger.warning(f"Version 0.1.2 error: {e}", exc_info=True)
 

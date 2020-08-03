@@ -20,7 +20,7 @@ import logging
 from os import remove
 from os.path import exists
 from pickle import dump
-from shutil import copyfile, move
+from shutil import copyfile, move, rmtree
 
 from .. import glovar
 from .decorators import threaded
@@ -70,6 +70,21 @@ def move_file(src: str, dst: str) -> bool:
         result = bool(move(src, dst))
     except Exception as e:
         logger.warning(f"Move file error: {e}", exc_info=True)
+
+    return result
+
+
+def remove_dir(path: str) -> bool:
+    # Remove a directory
+    result = False
+
+    try:
+        if not path or not exists(path):
+            return False
+
+        result = rmtree(path) or True
+    except Exception as e:
+        logger.warning(f"Remove dir error: {e}", exc_info=True)
 
     return result
 
