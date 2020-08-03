@@ -174,7 +174,7 @@ users: Dict[int, User] = {}
 #     12345678: User
 # }
 
-version: str = "0.1.2"
+version: str = "0.1.3"
 
 # Load data from TXT file
 
