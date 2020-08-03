@@ -106,7 +106,8 @@ def id_private(client: Client, message: Message) -> bool:
 
         # Check the id
         if not the_type or the_type not in {"channel", "user"} or not the_id:
-            return command_error(client, message, lang("action_id"), lang("command_para"), report=False, private=True)
+            return command_error(client, message, lang("action_id"), lang("command_para")
+                                 , report=False, private=True)
 
         # User
         if the_type == "user":

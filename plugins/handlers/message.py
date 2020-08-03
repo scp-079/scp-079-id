@@ -43,7 +43,8 @@ def id_forward(client: Client, message: Message) -> bool:
 
         # Check the message
         if not message.forward_from and not message.forward_from_chat:
-            return command_error(client, message, lang("action_id"), lang("reason_privacy"), report=False)
+            return command_error(client, message, lang("action_id"), lang("reason_privacy"),
+                                 report=False, private=True)
 
         # User
         if message.forward_from:
