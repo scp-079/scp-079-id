@@ -44,9 +44,9 @@ def log_rotation() -> bool:
     result = False
 
     try:
-        move_file("data/log/log", f"data/log/log-{get_readable_time(the_format='%Y%m%d')}")
+        move_file(f"{glovar.LOG_PATH}/log", f"{glovar.LOG_PATH}/log-{get_readable_time(the_format='%Y%m%d')}")
 
-        with open("data/log/log", "w", encoding="utf-8") as f:
+        with open(f"{glovar.LOG_PATH}/log", "w", encoding="utf-8") as f:
             f.write("")
 
         result = True

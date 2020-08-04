@@ -17,20 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from os import listdir
-from os.path import isfile, join
 
 from . import glovar
 from .functions.file import delete_file, save
 
 # Enable logging
 logger = logging.getLogger(__name__)
-
-
-def files(path):
-    for file in listdir(path):
-        if isfile(join(path, file)):
-            yield file
 
 
 def init() -> bool:
@@ -67,7 +59,7 @@ def renew() -> bool:
         if glovar.token == glovar.bot_token:
             return False
 
-        delete_file("data/session/bot.session")
+        delete_file(glovar.SESSION_PATH)
         glovar.token = glovar.bot_token
         save("token")
 

@@ -32,7 +32,10 @@ from .version import version_control
 
 # Path variables
 CONFIG_PATH = "data/config/config.ini"
-LOG_PATH = "data/log/log"
+LOG_PATH = "data/log"
+PICKLE_BACKUP_PATH = "data/pickle/backup"
+PICKLE_PATH = "data/pickle"
+SESSION_PATH = "data/session/bot.session"
 START_PATH = "data/config/start.txt"
 
 # Version control
@@ -42,7 +45,7 @@ version_control()
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.WARNING,
-    filename=LOG_PATH,
+    filename=f"{LOG_PATH}/log",
     filemode="a"
 )
 logger = logging.getLogger(__name__)
@@ -204,16 +207,16 @@ file_list: List[str] = ["current", "token"]
 for file in file_list:
     try:
         try:
-            if exists(f"data/pickle/{file}") or exists(f"data/pickle/backup/{file}"):
-                with open(f"data/pickle/{file}", "rb") as f:
+            if exists(f"{PICKLE_PATH}/{file}") or exists(f"{PICKLE_BACKUP_PATH}/{file}"):
+                with open(f"{PICKLE_PATH}/{file}", "rb") as f:
                     locals()[f"{file}"] = pickle.load(f)
             else:
-                with open(f"data/pickle/{file}", "wb") as f:
+                with open(f"{PICKLE_PATH}/{file}", "wb") as f:
                     pickle.dump(eval(f"{file}"), f)
         except Exception as e:
             logger.error(f"Load data {file} error: {e}", exc_info=True)
 
-            with open(f"data/pickle/backup/{file}", "rb") as f:
+            with open(f"{PICKLE_BACKUP_PATH}/{file}", "rb") as f:
                 locals()[f"{file}"] = pickle.load(f)
     except Exception as e:
         logger.critical(f"Load data {file} backup error: {e}", exc_info=True)

@@ -98,10 +98,10 @@ def save(file: str) -> bool:
         if not glovar:
             return False
 
-        with open(f"data/pickle/backup/{file}", "wb") as f:
+        with open(f"{glovar.PICKLE_BACKUP_PATH}/{file}", "wb") as f:
             dump(eval(f"glovar.{file}"), f)
 
-        result = copyfile(f"data/pickle/backup/{file}", f"data/pickle/{file}")
+        result = copyfile(f"{glovar.PICKLE_BACKUP_PATH}/{file}", f"{glovar.PICKLE_PATH}/{file}")
     except Exception as e:
         logger.warning(f"Save error: {e}", exc_info=True)
 
