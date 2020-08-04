@@ -46,7 +46,7 @@ def log_rotation() -> bool:
     try:
         move_file("data/log/log", f"data/log/log-{get_readable_time(the_format='%Y%m%d')}")
 
-        with open("data/log/log", "w") as f:
+        with open("data/log/log", "w", encoding="utf-8") as f:
             f.write("")
 
         result = True
