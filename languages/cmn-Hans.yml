@@ -38,7 +38,8 @@ restricted_reason: 受限原因
 restricted_user: 受限用户
 reason_privacy: 用户开启了转发保护
 scam_user: 诈骗用户
-verified_user: 认证用户
+verified_channel: 已认证频道
+verified_user: 已认证用户
 
 # Symbol
 colon: "："
