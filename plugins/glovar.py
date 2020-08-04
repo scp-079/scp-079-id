@@ -27,8 +27,13 @@ from emoji import UNICODE_EMOJI
 from pyrogram import Chat, User
 from yaml import safe_load
 
-from .checker import check_all
+from .checker import check_all, raise_error
 from .version import version_control
+
+# Path variables
+CONFIG_PATH = "data/config/config.ini"
+LOG_PATH = "data/log/log"
+START_PATH = "data/config/start.txt"
 
 # Version control
 version_control()
@@ -37,7 +42,7 @@ version_control()
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.WARNING,
-    filename="data/log/log",
+    filename=LOG_PATH,
     filemode="a"
 )
 logger = logging.getLogger(__name__)
@@ -70,8 +75,9 @@ lang: str = "cmn-Hans"
 aio: Union[bool, str] = "False"
 
 try:
+    not exists(CONFIG_PATH) and raise_error(f"{CONFIG_PATH} does not exists")
     config = RawConfigParser()
-    config.read("data/config/config.ini")
+    config.read(CONFIG_PATH)
 
     # [basic]
     bot_token = config.get("basic", "bot_token", fallback=bot_token)
@@ -178,8 +184,8 @@ version: str = "0.1.3"
 
 # Load data from TXT file
 
-if exists("data/config/start.txt"):
-    with open("data/config/start.txt", "r", encoding="utf-8") as f:
+if exists(START_PATH):
+    with open(START_PATH, "r", encoding="utf-8") as f:
         start_text = f.read()
 else:
     start_text = ""

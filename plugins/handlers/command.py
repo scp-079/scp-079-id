@@ -66,7 +66,7 @@ def id_group(client: Client, message: Message) -> bool:
             return thread(send_message, (client, gid, text, mid))
 
         text += (f"{lang('restricted_group')}{lang('colon')}{code('True')}\n"
-                 f"{lang('restricted_reason')}{lang('colon')}" + code("-") * 24 + "\n\n")
+                 f"{lang('restricted_reason')}{lang('colon')}" + code("-") * 16 + "\n\n")
         text += "\n\n".join(bold(f"{restriction.reason}-{restriction.platform}") + "\n" + code(restriction.text)
                             for restriction in message.chat.restrictions)
 
