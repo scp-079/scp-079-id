@@ -49,7 +49,7 @@ app.start()
 # Timer
 scheduler = BackgroundScheduler(job_defaults={"misfire_grace_time": 60})
 scheduler.add_job(interval_hour_01, "interval", hours=1)
-scheduler.add_job(log_rotation, "cron", hour=0)
+scheduler.add_job(log_rotation, "cron", hour=23, minute=59)
 scheduler.start()
 
 # Hold
