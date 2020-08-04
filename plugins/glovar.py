@@ -35,6 +35,7 @@ CONFIG_PATH = "data/config/config.ini"
 LOG_PATH = "data/log"
 PICKLE_BACKUP_PATH = "data/pickle/backup"
 PICKLE_PATH = "data/pickle"
+SESSION_DIR_PATH = "data/session"
 SESSION_PATH = "data/session/bot.session"
 START_PATH = "data/config/start.txt"
 
