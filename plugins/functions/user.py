@@ -38,13 +38,14 @@ def get_info_channel(chat: Chat) -> str:
                 f"{lang('channel_name')}{lang('colon')}{code(chat.title)}\n"
                 f"{lang('channel_id')}{lang('colon')}{code(chat.id)}\n")
 
-        if not chat.restrictions:
-            return text
+        if chat.is_verified:
+            text += f"{lang('verified_channel')}{lang('colon')}{code('True')}\n"
 
-        text += (f"{lang('restricted_channel')}{lang('colon')}{code('True')}\n"
-                 f"{lang('restricted_reason')}{lang('colon')}" + code("-") * 16 + "\n\n")
-        text += "\n\n".join(bold(f"{restriction.reason}-{restriction.platform}") + "\n" + code(restriction.text)
-                            for restriction in chat.restrictions)
+        if chat.restrictions:
+            text += (f"{lang('restricted_channel')}{lang('colon')}{code('True')}\n"
+                     f"{lang('restricted_reason')}{lang('colon')}" + code("-") * 16 + "\n\n")
+            text += "\n\n".join(bold(f"{restriction.reason}-{restriction.platform}") + "\n" + code(restriction.text)
+                                for restriction in chat.restrictions)
 
         result = text
     except Exception as e:
@@ -61,9 +62,6 @@ def get_info_group(chat: Chat) -> str:
         text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
                 f"{lang('group_name')}{lang('colon')}{code(chat.title)}\n"
                 f"{lang('group_id')}{lang('colon')}{code(chat.id)}\n")
-
-        if chat.is_verified:
-            text += f"{lang('verified_channel')}{lang('colon')}{code('True')}\n"
 
         if chat.restrictions:
             text += (f"{lang('restricted_group')}{lang('colon')}{code('True')}\n"
