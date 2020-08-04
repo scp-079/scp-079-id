@@ -109,8 +109,8 @@ try:
     # [flag]
     broken = False
 except Exception as e:
-    print("[ERROR] Read data from config.ini error, please check the log file")
-    logger.warning(f"Read data from config.ini error: {e}", exc_info=True)
+    print(f"[ERROR] Read data from {CONFIG_PATH} error, please check the log file")
+    logger.warning(f"Read data from {CONFIG_PATH} error: {e}", exc_info=True)
 
 # Check
 check_all(
