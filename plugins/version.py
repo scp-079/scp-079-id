@@ -96,8 +96,6 @@ def version_0_1_2() -> bool:
     result = False
 
     try:
-        exists("data/tmp") and rmtree("data/tmp")
-
         if exists("data/pickle/current"):
             return False
 
