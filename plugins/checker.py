@@ -82,24 +82,6 @@ def check_channels(values: Dict[str, Union[bool, bytes, int, str]], broken: bool
     return result
 
 
-def check_emoji(values: dict, broken: bool) -> str:
-    # Check all values in emoji section
-    result = ""
-
-    for key in values:
-        if key != "emoji_protect" and values[key] <= 0:
-            result += f"[ERROR] [emoji] {key} - should be a positive integer"
-        elif key == "emoji_protect" and values[key] in {"", "[DATA EXPUNGED]"}:
-            result += f"[ERROR] [emoji] {key} - please fill something except [DATA EXPUNGED]\n"
-
-        if not broken or not result:
-            continue
-
-        raise_error(result)
-
-    return result
-
-
 def check_language(values: Dict[str, Union[bool, bytes, int, str]], broken: bool) -> str:
     # Check all values in language section
     result = ""
