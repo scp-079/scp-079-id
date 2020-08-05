@@ -18,12 +18,10 @@
 
 import logging
 import pickle
-from codecs import getdecoder
 from configparser import RawConfigParser
 from os.path import exists
 from typing import Dict, List, Set, Union
 
-from emoji import UNICODE_EMOJI
 from pyrogram import Chat, User
 from yaml import safe_load
 
@@ -64,14 +62,6 @@ prefix_str: str = "/!"
 # [channels]
 test_group_id: int = 0
 
-# [emoji]
-emoji_ad_single: int = 15
-emoji_ad_total: int = 30
-emoji_many: int = 15
-emoji_protect: Union[bytes, str] = "\\U0001F642"
-emoji_wb_single: int = 10
-emoji_wb_total: int = 15
-
 # [language]
 lang: str = "cmn-Hans"
 
@@ -90,15 +80,6 @@ try:
 
     # [channels]
     test_group_id = int(config.get("channels", "test_group_id", fallback=test_group_id))
-
-    # [emoji]
-    emoji_ad_single = int(config.get("emoji", "emoji_ad_single", fallback=emoji_ad_single))
-    emoji_ad_total = int(config.get("emoji", "emoji_ad_total", fallback=emoji_ad_total))
-    emoji_many = int(config.get("emoji", "emoji_many", fallback=emoji_many))
-    emoji_protect = config.get("emoji", "emoji_protect", fallback=emoji_protect).encode()
-    emoji_protect = getdecoder("unicode_escape")(emoji_protect)[0]
-    emoji_wb_single = int(config.get("emoji", "emoji_wb_single", fallback=emoji_wb_single))
-    emoji_wb_total = int(config.get("emoji", "emoji_wb_total", fallback=emoji_wb_total))
 
     # [language]
     lang = config.get("language", "lang", fallback=lang)
@@ -122,14 +103,6 @@ check_all(
         },
         "channels": {
             "test_group_id": test_group_id
-        },
-        "emoji": {
-            "emoji_ad_single": emoji_ad_single,
-            "emoji_ad_total": emoji_ad_total,
-            "emoji_many": emoji_many,
-            "emoji_protect": emoji_protect,
-            "emoji_wb_single": emoji_wb_single,
-            "emoji_wb_total": emoji_wb_total
         },
         "language": {
             "lang": lang
@@ -163,8 +136,6 @@ chats: Dict[int, Chat] = {}
 # chats = {
 #     -10012345678: Chat
 # }
-
-emoji_set: Set[str] = set(UNICODE_EMOJI)
 
 sender: str = "ID"
 
