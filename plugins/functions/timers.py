@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from subprocess import run
 
 from .. import glovar
 from .etc import get_readable_time
@@ -48,6 +49,8 @@ def log_rotation() -> bool:
 
         with open(f"{glovar.LOG_PATH}/log", "w", encoding="utf-8") as f:
             f.write("")
+
+        run(f"find {glovar.LOG_PATH}/log-* -mtime +30 -delete", shell=True)
 
         result = True
     except Exception as e:
