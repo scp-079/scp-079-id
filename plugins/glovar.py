@@ -170,8 +170,10 @@ else:
 # Init data
 
 current: str = ""
+# current = "0.0.1"
 
 token: str = ""
+# token = "123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
 
 # Load data
 file_list: List[str] = ["current", "token"]
