@@ -17,10 +17,10 @@ This bot is used to get the ID of user, channel, and group on Telegram.
 ## Files
 
 - examples
-   - `config.ini` -> `../data/config/config.ini` : Configuration example
-   - `start.txt` -> `../data/config/start.txt` : Start template example
+    - `config.ini` -> `../data/config/config.ini` : Configuration example
+    - `start.txt` -> `../data/config/start.txt` : Start template example
 - languages
-   - `cmn-Hans.yml` : Mandarin Chinese (Simplified)
+    - `cmn-Hans.yml` : Mandarin Chinese (Simplified)
 - plugins
     - functions
         - `command.py` : Functions about command
