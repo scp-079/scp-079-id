@@ -196,7 +196,7 @@ def get_length(text: str) -> int:
             return 0
 
         emoji_dict = {}
-        emoji_set = {emoji for emoji in glovar.emoji_set if emoji in text and emoji not in glovar.emoji_protect}
+        emoji_set = {emoji for emoji in glovar.emoji_set if emoji in text}
         emoji_old_set = deepcopy(emoji_set)
 
         for emoji in emoji_old_set:

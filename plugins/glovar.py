@@ -22,6 +22,7 @@ from configparser import RawConfigParser
 from os.path import exists
 from typing import Dict, List, Set, Union
 
+from emoji import UNICODE_EMOJI
 from pyrogram import Chat, User
 from yaml import safe_load
 
@@ -136,6 +137,8 @@ chats: Dict[int, Chat] = {}
 # chats = {
 #     -10012345678: Chat
 # }
+
+emoji_set: Set[str] = set(UNICODE_EMOJI)
 
 sender: str = "ID"
 
