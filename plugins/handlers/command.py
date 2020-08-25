@@ -185,6 +185,40 @@ def start(client: Client, message: Message) -> bool:
     return result
 
 
+@Client.on_message(Filters.incoming & Filters.group & Filters.command(["update"], glovar.prefix)
+                   & test_group
+                   & from_user)
+def update(client: Client, message: Message) -> bool:
+    # Update the program
+    result = False
+
+    try:
+        # Basic data
+        cid = message.chat.id
+        aid = message.from_user.id
+        mid = message.message_id
+
+        # Get command type
+        command_type = get_command_type(message)
+
+        # Check the command type
+        if command_type and command_type.upper() != glovar.sender:
+            return False
+
+        # Generate the text
+        text = (f"{lang('admin')}{lang('colon')}{mention_id(aid)}\n\n"
+                f"{lang('project')}{lang('colon')}{code(glovar.sender)}\n"
+                f"{lang('action')}{lang('colon')}{code(lang('program_update'))}\n"
+                f"{lang('status')}{lang('colon')}{code(lang('command_received'))}\n")
+
+        # Send the report message
+        result = send_message(client, cid, text, mid)
+    except Exception as e:
+        logger.warning(f"Update error: {e}", exc_info=True)
+
+    return result
+
+
 @Client.on_message(Filters.incoming & Filters.group & Filters.command(["version"], glovar.prefix)
                    & test_group
                    & from_user)
