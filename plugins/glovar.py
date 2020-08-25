@@ -130,7 +130,9 @@ except Exception as e:
 all_commands: List[str] = [
     "help",
     "id",
-    "start"
+    "restart",
+    "start",
+    "update"
 ]
 
 chats: Dict[int, Chat] = {}
