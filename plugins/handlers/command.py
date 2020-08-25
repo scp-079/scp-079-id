@@ -175,7 +175,7 @@ def restart(client: Client, message: Message) -> bool:
         # Send the report message
         send_message(client, cid, text, mid)
 
-        # Update the program
+        # Restart the program
         result = restart_program()
     except Exception as e:
         logger.warning(f"Restart error: {e}", exc_info=True)
