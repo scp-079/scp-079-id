@@ -28,6 +28,7 @@ from ..functions.etc import thread
 from ..functions.filters import from_user, test_group
 from ..functions.group import get_group
 from ..functions.link import get_username
+from ..functions.program import restart_program, update_program
 from ..functions.markup import get_text_and_markup
 from ..functions.telegram import resolve_username, send_message
 from ..functions.user import get_user, get_info_channel, get_info_group, get_info_user
@@ -212,7 +213,10 @@ def update(client: Client, message: Message) -> bool:
                 f"{lang('status')}{lang('colon')}{code(lang('command_received'))}\n")
 
         # Send the report message
-        result = send_message(client, cid, text, mid)
+        send_message(client, cid, text, mid)
+
+        # Update the program
+        result = update_program()
     except Exception as e:
         logger.warning(f"Update error: {e}", exc_info=True)
 
