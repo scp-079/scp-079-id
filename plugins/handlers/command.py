@@ -146,6 +146,43 @@ def id_private(client: Client, message: Message) -> bool:
     return result
 
 
+@Client.on_message(Filters.incoming & Filters.group & Filters.command(["restart"], glovar.prefix)
+                   & test_group
+                   & from_user)
+def restart(client: Client, message: Message) -> bool:
+    # Restart the program
+    result = False
+
+    try:
+        # Basic data
+        cid = message.chat.id
+        aid = message.from_user.id
+        mid = message.message_id
+
+        # Get command type
+        command_type = get_command_type(message)
+
+        # Check the command type
+        if command_type and command_type.upper() != glovar.sender:
+            return False
+
+        # Generate the text
+        text = (f"{lang('admin')}{lang('colon')}{mention_id(aid)}\n\n"
+                f"{lang('project')}{lang('colon')}{code(glovar.sender)}\n"
+                f"{lang('action')}{lang('colon')}{code(lang('program_restart'))}\n"
+                f"{lang('status')}{lang('colon')}{code(lang('command_received'))}\n")
+
+        # Send the report message
+        send_message(client, cid, text, mid)
+
+        # Update the program
+        result = restart_program()
+    except Exception as e:
+        logger.warning(f"Restart error: {e}", exc_info=True)
+
+    return result
+
+
 @Client.on_message(Filters.incoming & Filters.private & ~Filters.forwarded
                    & Filters.command(["start", "help"], glovar.prefix)
                    & from_user)
