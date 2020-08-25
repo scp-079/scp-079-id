@@ -27,6 +27,7 @@ error_private_para: 带参数的命令请在私聊中使用
 # Program
 program_restart: 重启程序
 program_update: 更新程序
+program_updating: 程序正在执行更新
 
 # Special
 action_id: 获取 ID

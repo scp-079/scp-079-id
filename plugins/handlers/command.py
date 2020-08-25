@@ -253,6 +253,7 @@ def update(client: Client, message: Message) -> bool:
         send_message(client, cid, text, mid)
 
         # Update the program
+        glovar.updating = True
         result = update_program()
     except Exception as e:
         logger.warning(f"Update error: {e}", exc_info=True)
@@ -279,6 +280,13 @@ def version(client: Client, message: Message) -> bool:
         # Check the command type
         if command_type and command_type.upper() != glovar.sender:
             return False
+
+        # Check update status
+        if glovar.updating:
+            text = (f"{lang('admin')}{lang('colon')}{mention_id(aid)}\n\n"
+                    f"{lang('project')}{lang('colon')}{code(glovar.sender)}\n"
+                    f"{lang('status')}{lang('colon')}{code(lang('program_updating'))}\n")
+            return thread(send_message, (client, cid, text, mid))
 
         # Version info
         git_change = bool(run("git diff-index HEAD --", stdout=PIPE, shell=True).stdout.decode().strip())

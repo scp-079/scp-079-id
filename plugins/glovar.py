@@ -162,6 +162,8 @@ users: Dict[int, User] = {}
 
 version: str = "0.1.4"
 
+updating: bool = False
+
 # Load data from TXT file
 
 if exists(START_PATH):
