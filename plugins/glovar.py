@@ -162,7 +162,7 @@ users: Dict[int, User] = {}
 #     12345678: User
 # }
 
-version: str = "0.1.5"
+version: str = "0.1.6"
 
 updating: bool = False
 
