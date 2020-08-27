@@ -157,14 +157,14 @@ usernames: Dict[str, Dict[str, Union[int, str]]] = {}
 #     }
 # }
 
+updating: bool = False
+
 users: Dict[int, User] = {}
 # users = {
 #     12345678: User
 # }
 
 version: str = "0.1.6"
-
-updating: bool = False
 
 # Load data from TXT file
 
