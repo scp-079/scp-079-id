@@ -19,7 +19,8 @@
 import logging
 from subprocess import run, PIPE
 
-from pyrogram import Client, Filters, Message
+from pyrogram import Client, filters
+from pyrogram.types import Message
 
 from .. import glovar
 from ..functions.command import command_error, get_command_type
@@ -30,14 +31,14 @@ from ..functions.group import get_group
 from ..functions.link import get_username
 from ..functions.program import restart_program, update_program
 from ..functions.markup import get_text_and_markup
-from ..functions.telegram import resolve_username, send_message
+from ..functions.telegram import resolve_username, send_message, send_report_message
 from ..functions.user import get_user, get_info_channel, get_info_group, get_info_user
 
 # Enable logging
 logger = logging.getLogger(__name__)
 
 
-@Client.on_message(Filters.incoming & Filters.group & ~Filters.forwarded & Filters.command(["id"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.group & ~filters.forwarded & filters.command(["id"], glovar.prefix)
                    & ~test_group
                    & from_user)
 def id_group(client: Client, message: Message) -> bool:
@@ -81,7 +82,7 @@ def id_group(client: Client, message: Message) -> bool:
     return result
 
 
-@Client.on_message(Filters.incoming & Filters.private & ~Filters.forwarded & Filters.command(["id"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.private & ~filters.forwarded & filters.command(["id"], glovar.prefix)
                    & from_user)
 def id_private(client: Client, message: Message) -> bool:
     # Get id in private chat by command
@@ -146,7 +147,7 @@ def id_private(client: Client, message: Message) -> bool:
     return result
 
 
-@Client.on_message(Filters.incoming & Filters.group & Filters.command(["restart"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.group & filters.command(["restart"], glovar.prefix)
                    & test_group
                    & from_user)
 def restart(client: Client, message: Message) -> bool:
@@ -183,8 +184,8 @@ def restart(client: Client, message: Message) -> bool:
     return result
 
 
-@Client.on_message(Filters.incoming & Filters.private & ~Filters.forwarded
-                   & Filters.command(["start", "help"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.private & ~filters.forwarded
+                   & filters.command(["start", "help"], glovar.prefix)
                    & from_user)
 def start(client: Client, message: Message) -> bool:
     # Start the bot
@@ -223,7 +224,7 @@ def start(client: Client, message: Message) -> bool:
     return result
 
 
-@Client.on_message(Filters.incoming & Filters.group & Filters.command(["update"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.group & filters.command(["update"], glovar.prefix)
                    & test_group
                    & from_user)
 def update(client: Client, message: Message) -> bool:
@@ -261,7 +262,7 @@ def update(client: Client, message: Message) -> bool:
     return result
 
 
-@Client.on_message(Filters.incoming & Filters.group & Filters.command(["version"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.group & filters.command(["version"], glovar.prefix)
                    & test_group
                    & from_user)
 def version(client: Client, message: Message) -> bool:
@@ -307,6 +308,8 @@ def version(client: Client, message: Message) -> bool:
 
         # Send the report message
         result = send_message(client, cid, text, mid)
+
+        send_report_message(10, client, cid, "test")
     except Exception as e:
         logger.warning(f"Version error: {e}", exc_info=True)
 

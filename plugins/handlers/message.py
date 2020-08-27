@@ -18,7 +18,8 @@
 
 import logging
 
-from pyrogram import Client, Filters, Message
+from pyrogram import Client, filters
+from pyrogram.types import Message
 
 from ..functions.command import command_error
 from ..functions.etc import lang, thread
@@ -30,7 +31,7 @@ from ..functions.user import get_info_channel, get_info_user
 logger = logging.getLogger(__name__)
 
 
-@Client.on_message(Filters.incoming & Filters.private & Filters.forwarded
+@Client.on_message(filters.incoming & filters.private & filters.forwarded
                    & from_user)
 def id_forward(client: Client, message: Message) -> bool:
     # Get ID in private chat from forwarded message

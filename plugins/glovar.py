@@ -23,7 +23,7 @@ from os.path import exists
 from typing import Dict, List, Set, Union
 
 from emoji import UNICODE_EMOJI
-from pyrogram import Chat, User
+from pyrogram.types import Chat, User
 from yaml import safe_load
 
 from .checker import check_all, raise_error

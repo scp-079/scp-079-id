@@ -19,7 +19,8 @@
 import logging
 from typing import Optional, Union
 
-from pyrogram import Chat, Client, User
+from pyrogram import Client
+from pyrogram.types import Chat, User
 
 from .. import glovar
 from .etc import bold, code, get_full_name, lang

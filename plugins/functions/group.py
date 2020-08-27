@@ -19,7 +19,8 @@
 import logging
 from typing import Optional
 
-from pyrogram import Chat, Client
+from pyrogram import Client
+from pyrogram.types import Chat
 
 from .. import glovar
 from .telegram import get_chat
