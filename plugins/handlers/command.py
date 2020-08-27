@@ -31,7 +31,7 @@ from ..functions.group import get_group
 from ..functions.link import get_username
 from ..functions.program import restart_program, update_program
 from ..functions.markup import get_text_and_markup
-from ..functions.telegram import resolve_username, send_message, send_report_message
+from ..functions.telegram import resolve_username, send_message
 from ..functions.user import get_user, get_info_channel, get_info_group, get_info_user
 
 # Enable logging
@@ -307,9 +307,7 @@ def version(client: Client, message: Message) -> bool:
                 f"{lang('command_date')}{lang('colon')}{code(command_date)}\n")
 
         # Send the report message
-        result = send_message(client, cid, text, mid)
-
-        send_report_message(10, client, cid, "test")
+        result = bool(send_message(client, cid, text, mid))
     except Exception as e:
         logger.warning(f"Version error: {e}", exc_info=True)
 
