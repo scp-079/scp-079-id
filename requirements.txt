@@ -1,6 +1,5 @@
 APScheduler==3.6.3
 async-lru==1.0.2
-emoji==0.6.0
 pyaes==1.6.1
 Pyrogram==1.0.2
 PySocks==1.7.1
