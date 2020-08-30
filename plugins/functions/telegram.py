@@ -27,7 +27,7 @@ from pyrogram.types import Chat, ChatPreview, InlineKeyboardMarkup, ReplyKeyboar
 
 from .. import glovar
 from .etc import delay, get_int
-from .decorators import retry
+from .decorators import retry, threaded
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -192,6 +192,7 @@ def send_message(client: Client, cid: int, text: str, mid: int = None,
     return result
 
 
+@threaded()
 def send_report_message(secs: int, client: Client, cid: int, text: str, mid: int = None,
                         markup: InlineKeyboardMarkup = None) -> Optional[bool]:
     # Send a message that will be auto deleted to a chat
