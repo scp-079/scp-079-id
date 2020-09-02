@@ -24,8 +24,7 @@ from pyrogram.types import Message
 
 from .. import glovar
 from ..functions.command import command_error, get_command_type
-from ..functions.etc import bold, code, general_link, get_int, get_readable_time, lang, mention_id
-from ..functions.etc import thread
+from ..functions.etc import bold, code, general_link, get_int, get_readable_time, lang, mention_id, thread
 from ..functions.filters import from_user, test_group
 from ..functions.group import get_group
 from ..functions.link import get_username
