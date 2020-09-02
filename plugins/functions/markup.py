@@ -87,7 +87,7 @@ def get_inline(buttons: List[Dict[str, Union[str, bytes, CallbackGame, None]]]) 
     return result
 
 
-def get_text_and_markup(text: str) -> Tuple[str, Optional[InlineKeyboardMarkup]]:
+def get_text_and_markup(text: str) -> Tuple[str, Union[bool, InlineKeyboardMarkup, None]]:
     # Get inline markup from text
     result = (text, None)
 
@@ -114,13 +114,13 @@ def get_text_and_markup(text: str) -> Tuple[str, Optional[InlineKeyboardMarkup]]
             button = [b.strip() for b in button.split("||") if b.strip()]
 
             if len(button) != 2:
-                return text, None
+                return text, False
 
             button_text = button[0]
             button_url = button[1]
 
-            if button_url.startswith("@") or " " in button_url:
-                return text, None
+            if button_url.startswith("@") or " " in button_url or "." not in button_url:
+                return text, False
 
             buttons.append(
                 {
