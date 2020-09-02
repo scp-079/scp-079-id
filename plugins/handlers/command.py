@@ -206,12 +206,12 @@ def start(client: Client, message: Message) -> bool:
         if glovar.aio:
             return False
 
-        # Check start text
-        if not glovar.start_text:
-            return False
-
         # Generate the text and markup
         text, markup = get_text_and_markup(glovar.start_text)
+
+        # Check start text
+        if not text:
+            return False
 
         # Send the report message
         thread(send_message, (client, cid, text, mid, markup))
