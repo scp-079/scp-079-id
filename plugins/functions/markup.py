@@ -44,7 +44,7 @@ def get_inline(buttons: List[Dict[str, Union[str, bytes, CallbackGame, None]]]) 
 
         for button in buttons:
             text = button.get("text")
-            data = button.get("data")
+            callback_data = button.get("callback_data")
             url = button.get("url")
             switch_inline_query = button.get("switch_inline_query")
             switch_inline_query_current_chat = button.get("switch_inline_query_current_chat")
@@ -72,7 +72,7 @@ def get_inline(buttons: List[Dict[str, Union[str, bytes, CallbackGame, None]]]) 
             markup_list[-1].append(
                 InlineKeyboardButton(
                     text=text,
-                    callback_data=data,
+                    callback_data=callback_data,
                     url=url,
                     switch_inline_query=switch_inline_query,
                     switch_inline_query_current_chat=switch_inline_query_current_chat,
