@@ -82,6 +82,24 @@ def check_channels(values: Dict[str, Union[bool, bytes, int, str]], broken: bool
     return result
 
 
+def check_custom(values: dict, broken: bool) -> str:
+    # Check all values in custom section
+    result = ""
+
+    for key in values:
+        if values[key] in {"", "[DATA EXPUNGED]"}:
+            result += f"[ERROR] [custom] {key} - please fill something except [DATA EXPUNGED]\n"
+        elif key.endswith("link") and (values[key].startswith("@") or " " in values[key]):
+            result += f"[ERROR] [custom] {key} - please input a valid url\n"
+
+        if not broken or not result:
+            continue
+
+        raise_error(result)
+
+    return result
+
+
 def check_language(values: Dict[str, Union[bool, bytes, int, str]], broken: bool) -> str:
     # Check all values in language section
     result = ""

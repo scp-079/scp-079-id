@@ -64,6 +64,9 @@ prefix_str: str = "/!"
 # [channels]
 test_group_id: int = 0
 
+# [custom]
+manual_link: str = "https://manuals.scp-079.org/bots/id/"
+
 # [language]
 lang: str = "cmn-Hans"
 
@@ -82,6 +85,9 @@ try:
 
     # [channels]
     test_group_id = int(config.get("channels", "test_group_id", fallback=test_group_id))
+
+    # [custom]
+    manual_link = config.get("custom", "manual_link", fallback=manual_link)
 
     # [language]
     lang = config.get("language", "lang", fallback=lang)
@@ -105,6 +111,9 @@ check_all(
         },
         "channels": {
             "test_group_id": test_group_id
+        },
+        "custom": {
+            "manual_link": manual_link
         },
         "language": {
             "lang": lang
