@@ -17,9 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+import pickle
 from os import remove
 from os.path import exists
-from pickle import dump
 from shutil import copyfile, move, rmtree
 
 from .. import glovar
@@ -99,7 +99,7 @@ def save(file: str) -> bool:
             return False
 
         with open(f"{glovar.PICKLE_BACKUP_PATH}/{file}", "wb") as f:
-            dump(eval(f"glovar.{file}"), f)
+            pickle.dump(eval(f"glovar.{file}"), f)
 
         result = copyfile(f"{glovar.PICKLE_BACKUP_PATH}/{file}", f"{glovar.PICKLE_PATH}/{file}")
     except Exception as e:
