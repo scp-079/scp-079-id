@@ -1,10 +1,10 @@
 APScheduler==3.6.3
 async-lru==1.0.2
 pyaes==1.6.1
-Pyrogram==1.0.6
+Pyrogram==1.0.7
 PySocks==1.7.1
 pytz==2020.1
 PyYAML==5.3.1
 six==1.15.0
-TgCrypto==1.2.1
+TgCrypto==1.2.2
 tzlocal==2.1

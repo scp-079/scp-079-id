@@ -25,10 +25,16 @@ command_type: 命令类别有误
 command_usage: 用法有误
 error_private_para: 带参数的命令请在私聊中使用
 
+# Message Types
+con: 联系人卡片
+
 # Program
 program_restart: 重启程序
 program_update: 更新程序
 program_updating: 程序正在执行更新
+
+# Record
+message_type: 消息类别
 
 # Special
 action_id: 获取 ID

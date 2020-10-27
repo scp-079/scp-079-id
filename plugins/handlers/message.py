@@ -22,13 +22,44 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from ..functions.command import command_error
-from ..functions.etc import lang, thread
+from ..functions.etc import code, get_full_name, lang, thread
 from ..functions.filters import from_user
 from ..functions.telegram import send_message
 from ..functions.user import get_info_channel, get_info_user
 
 # Enable logging
 logger = logging.getLogger(__name__)
+
+
+@Client.on_message(filters.incoming & filters.private & filters.contact
+                   & from_user)
+def id_contact(client: Client, message: Message) -> bool:
+    # Get ID in private chat from contact card
+    result = False
+
+    try:
+        # Basic data
+        cid = message.chat.id
+        mid = message.message_id
+
+        # Check the message
+        if not message.contact:
+            return False
+
+        # User
+        text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
+                f"{lang('message_type')}{lang('colon')}{code(lang('con'))}\n"
+                f"{lang('user_name')}{lang('colon')}{code(get_full_name(message.contact))}\n"
+                f"{lang('user_id')}{lang('colon')}{code(message.contact.user_id)}\n")
+
+        # Channel
+        thread(send_message, (client, cid, text, mid))
+
+        result = True
+    except Exception as e:
+        logger.warning(f"ID contact error: {e}", exc_info=True)
+
+    return result
 
 
 @Client.on_message(filters.incoming & filters.private & filters.forwarded

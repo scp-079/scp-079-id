@@ -28,7 +28,7 @@ from time import localtime, sleep, strftime, time
 from typing import Any, Callable, Optional, Union
 
 from pyrogram.errors import FloodWait
-from pyrogram.types import Message, User
+from pyrogram.types import Contact, Message, User
 
 from .. import glovar
 
@@ -155,12 +155,12 @@ def get_forward_name(message: Message) -> str:
     return result
 
 
-def get_full_name(user: User) -> str:
+def get_full_name(user: Union[Contact, User]) -> str:
     # Get user's full name
     result = ""
 
     try:
-        if not user or user.is_deleted:
+        if not user or (isinstance(user, User) and user.is_deleted):
             return ""
 
         result = user.first_name
