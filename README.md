@@ -16,6 +16,8 @@ This bot is used to get the ID of user, channel, and group on Telegram.
 
 ## Files
 
+- data
+    - The folder will be generated when program starts
 - examples
     - `config.ini` -> `../data/config/config.ini` : Configuration example
     - `start.txt` -> `../data/config/start.txt` : Start template example
@@ -33,17 +35,22 @@ This bot is used to get the ID of user, channel, and group on Telegram.
         - `markup.py` : Get reply markup
         - `program.py` : Functions about program
         - `telegram.py` : Some telegram functions
+        - `timers.py` : Timer functions
+        - `user.py` : Functions about user
     - handlers
         - `command.py` : Handle commands
         - `message.py`: Handle messages
+    - `__init__.py`
     - `checker.py` : Check the format of `config.ini`
     - `glovar.py` : Global variables
     - `start.py` : Execute before client start
     - `version.py` : Execute before main script start
-- `.gitignore` : Ignore
+- `.gitignore` : Specifies intentionally untracked files that Git should ignore
+- `dictionary.dic` : Project's dictionary 
 - `Dockerfile` : Assemble the docker image
 - `LICENSE` : GPLv3
 - `main.py` : Start here
+- `pip.sh` : Script for updating dependencies
 - `README.md` : This file
 - `requirements.txt` : Managed by pip
 

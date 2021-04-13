@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 # SCP-079-ID - Get Telegram ID
 # Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
 #
@@ -40,9 +37,11 @@ renew()
 # Config session
 app = Client(
     session_name="bot",
+    ipv6=glovar.ipv6,
     bot_token=glovar.bot_token,
     workdir=glovar.SESSION_DIR_PATH,
-    config_file=glovar.CONFIG_PATH
+    config_file=glovar.CONFIG_PATH,
+    sleep_threshold=0
 )
 app.start()
 
