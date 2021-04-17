@@ -39,6 +39,9 @@ def get_info_channel(chat: Chat) -> str:
                 f"{lang('channel_name')}{lang('colon')}{code(chat.title)}\n"
                 f"{lang('channel_id')}{lang('colon')}{code(chat.id)}\n")
 
+        if chat.dc_id:
+            text += f"{lang('DC')}{lang('colon')}{code(chat.dc_id)}\n"
+
         if chat.is_verified:
             text += f"{lang('verified_channel')}{lang('colon')}{code('True')}\n"
 
