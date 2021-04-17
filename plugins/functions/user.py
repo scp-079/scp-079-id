@@ -94,8 +94,10 @@ def get_info_user(user: User, gid: int = 0, uid: int = 0, rid: int = 0) -> str:
         else:
             text = (f"{lang('action')}{lang('colon')}{code(lang('action_id'))}\n"
                     f"{lang('user_name')}{lang('colon')}{code(get_full_name(user))}\n"
-                    f"{lang('user_id')}{lang('colon')}{code(user.id)}\n"
-                    f"{lang('DC')}{lang('colon')}{code(user.dc_id)}\n")
+                    f"{lang('user_id')}{lang('colon')}{code(user.id)}\n")
+
+            if user.dc_id:
+                text += f"{lang('DC')}{lang('colon')}{code(user.dc_id)}\n"
 
         if user.is_fake:
             text += f"{lang('fake_user')}{lang('colon')}{code('True')}\n"
