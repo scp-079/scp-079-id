@@ -58,6 +58,7 @@ broken: bool = True
 
 # [basic]
 bot_token: str = ""
+ipv6: Union[bool, str] = "False"
 prefix: List[str] = []
 prefix_str: str = "/!"
 
@@ -80,8 +81,9 @@ try:
 
     # [basic]
     bot_token = config.get("basic", "bot_token", fallback=bot_token)
-    prefix_str = config.get("basic", "prefix", fallback=prefix_str)
-    prefix = [p for p in list(prefix_str) if p]
+    ipv6 = config.get("basic", "ipv6", fallback=ipv6)
+    ipv6 = eval(ipv6)
+    prefix = [p for p in list(config.get("basic", "prefix", fallback=prefix_str)) if p]
 
     # [channels]
     test_group_id = int(config.get("channels", "test_group_id", fallback=test_group_id))
@@ -107,6 +109,7 @@ check_all(
     {
         "basic": {
             "bot_token": bot_token,
+            "ipv6": ipv6,
             "prefix": prefix
         },
         "channels": {

@@ -41,13 +41,15 @@ def check_all(values: Dict[str, Dict[str, Union[bool, bytes, int, str, List[str]
     raise_error(error)
 
 
-def check_basic(values: Dict[str, Union[bool, bytes, int, str, List[str]]], broken: bool) -> str:
+def check_basic(values: dict, broken: bool) -> str:
     # Check all values in basic section
     result = ""
 
     for key in values:
         if key == "bot_token" and values[key] in {"", "[DATA EXPUNGED]"}:
             result += f"[ERROR] [basic] {key} - please fill a valid token\n"
+        elif key == "ipv6" and values[key] not in {False, True}:
+            result += f"[ERROR] [basic] {key} - please fill a valid boolean value\n"
         elif key == "prefix" and (isinstance(values[key], str) or not values[key]):
             result += f"[ERROR] [basic] {key} - please fill a valid command prefix list\n"
 
