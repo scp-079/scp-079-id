@@ -67,6 +67,9 @@ def get_info_group(chat: Chat) -> str:
                 f"{lang('group_name')}{lang('colon')}{code(chat.title)}\n"
                 f"{lang('group_id')}{lang('colon')}{code(chat.id)}\n")
 
+        if chat.dc_id:
+            text += f"{lang('DC')}{lang('colon')}{code(chat.dc_id)}\n"
+
         if chat.restrictions:
             text += (f"{lang('restricted_group')}{lang('colon')}{code('True')}\n"
                      f"{lang('restricted_reason')}{lang('colon')}" + code("-") * 16 + "\n\n")
