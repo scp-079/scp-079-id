@@ -40,7 +40,7 @@ def get_info_channel(chat: Chat) -> str:
                 f"{lang('channel_id')}{lang('colon')}{code(chat.id)}\n")
 
         if chat.dc_id:
-            text += f"{lang('DC ID')}{lang('colon')}{code(chat.dc_id)}\n"
+            text += f"{lang('DC')}{lang('colon')}{code(chat.dc_id)}\n"
 
         if chat.is_verified:
             text += f"{lang('verified_channel')}{lang('colon')}{code('True')}\n"
@@ -100,7 +100,7 @@ def get_info_user(user: User, gid: int = 0, uid: int = 0, rid: int = 0) -> str:
                     f"{lang('user_id')}{lang('colon')}{code(user.id)}\n")
 
             if user.dc_id:
-                text += f"{lang('DC ID')}{lang('colon')}{code(user.dc_id)}\n"
+                text += f"{lang('DC')}{lang('colon')}{code(user.dc_id)}\n"
 
         if user.is_fake:
             text += f"{lang('fake_user')}{lang('colon')}{code('True')}\n"
