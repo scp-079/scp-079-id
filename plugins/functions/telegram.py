@@ -22,6 +22,7 @@ from typing import Iterable, List, Optional, Union
 from pyrogram import Client
 from pyrogram.errors import (ChatAdminRequired, ButtonDataInvalid, ButtonUrlInvalid, ChannelInvalid, ChannelPrivate,
                              FloodWait, MessageDeleteForbidden, PeerIdInvalid,  UsernameInvalid, UsernameNotOccupied)
+from pyrogram.raw.base import InputChannel, InputUser, InputPeer
 from pyrogram.raw.types import InputPeerUser, InputPeerChannel
 from pyrogram.types import Chat, ChatPreview, InlineKeyboardMarkup, ReplyKeyboardMarkup, Message, User
 
@@ -60,6 +61,7 @@ def delete_messages_100(client: Client, cid: int, mids: Iterable[int]) -> Option
         mids = list(mids)
         result = client.delete_messages(chat_id=cid, message_ids=mids)
     except FloodWait as e:
+        logger.warning(f"Delete message in {cid} - Sleep for {e.x} second(s)")
         raise e
     except MessageDeleteForbidden:
         return False
@@ -77,6 +79,7 @@ def get_chat(client: Client, cid: Union[int, str]) -> Union[Chat, ChatPreview, N
     try:
         result = client.get_chat(chat_id=cid)
     except FloodWait as e:
+        logger.warning(f"Get chat {cid} - Sleep for {e.x} second(s)")
         raise e
     except (ChannelInvalid, ChannelPrivate, PeerIdInvalid):
         return None
@@ -94,6 +97,7 @@ def get_users(client: Client, uids: Iterable[Union[int, str]]) -> Optional[List[
     try:
         result = client.get_users(user_ids=uids)
     except FloodWait as e:
+        logger.warning(f"Get users {uids} - Sleep for {e.x} second(s)")
         raise e
     except PeerIdInvalid:
         return None
@@ -104,13 +108,14 @@ def get_users(client: Client, uids: Iterable[Union[int, str]]) -> Optional[List[
 
 
 @retry
-def resolve_peer(client: Client, pid: Union[int, str]) -> Union[bool, InputPeerChannel, InputPeerUser, None]:
+def resolve_peer(client: Client, pid: Union[int, str]) -> Union[bool, InputChannel, InputPeer, InputUser, None]:
     # Get an input peer by id
     result = None
 
     try:
         result = client.resolve_peer(pid)
     except FloodWait as e:
+        logger.warning(f"Resolve peer {pid} - Sleep for {e.x} second(s)")
         raise e
     except (PeerIdInvalid, UsernameInvalid, UsernameNotOccupied):
         return False
@@ -163,7 +168,7 @@ def resolve_username(client: Client, username: str, cache: bool = True) -> (str,
 
 
 @retry
-def send_message(client: Client, cid: int, text: str, mid: int = None,
+def send_message(client: Client, cid: Union[int, str], text: str, mid: int = None,
                  markup: Union[InlineKeyboardMarkup, ReplyKeyboardMarkup] = None) -> Union[bool, Message, None]:
     # Send a message to a chat
     result = None
@@ -181,6 +186,7 @@ def send_message(client: Client, cid: int, text: str, mid: int = None,
             reply_markup=markup
         )
     except FloodWait as e:
+        logger.warning(f"Send message to {cid} - Sleep for {e.x} second(s)")
         raise e
     except (ButtonDataInvalid, ButtonUrlInvalid):
         logger.warning(f"Send message to {cid} - invalid markup: {markup}")

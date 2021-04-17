@@ -40,6 +40,7 @@ message_type: 消息类别
 action_id: 获取 ID
 channel_id: 频道 ID
 channel_name: 频道名称
+fake_user: 冒充用户
 group_id: 群组 ID
 group_name: 群组名称
 user_id: 用户 ID
