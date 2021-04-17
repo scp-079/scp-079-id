@@ -1,6 +1,6 @@
 # SCP-079-ID
 
-This bot is used to get the ID of user, channel, and group on Telegram.
+With this program, you can create a Telegram bot to check the user ID, group ID, channel ID, and the Data Center to which the user belongs.
 
 ## How to use
 
