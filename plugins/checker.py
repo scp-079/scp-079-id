@@ -1,5 +1,5 @@
 # SCP-079-ID - Get Telegram ID
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-ID.
 #
@@ -39,6 +39,44 @@ def check_all(values: Dict[str, Dict[str, Union[bool, bytes, int, str, List[str]
         return True
 
     raise_error(error)
+
+
+def check_pyrogram(values: Dict[str, Union[int, str]], broken: bool) -> str:
+    # Check all values in pyrogram section
+    result = ""
+
+    for key in values:
+        if key == "api_id" and values[key] <= 0:
+            result += f"[ERROR] [pyrogram] {key} - should be a positive integer\n"
+        elif key == "api_hash" and values[key] in {"", "[DATA EXPUNGED]"}:
+            result += f"[ERROR] [pyrogram] {key} - please fill something except [DATA EXPUNGED]\n"
+
+        if not broken or not result:
+            continue
+
+        raise_error(result)
+
+    return result
+
+
+def check_proxy(values: Dict[str, Union[bool, int, str]], broken: bool) -> str:
+    # Check all values in proxy section
+    result = ""
+
+    for key in values:
+        if key == "enabled" and values[key] not in {False, True}:
+            result += f"[ERROR] [proxy] {key} - please fill a valid boolean value\n"
+        elif key == "hostname" and values[key] in {"", "[DATA EXPUNGED]"}:
+            result += f"[ERROR] [proxy] {key} - please fill something except [DATA EXPUNGED]\n"
+        elif key == "port" and values[key] <= 0:
+            result += f"[ERROR] [proxy] {key} - should be a positive integer\n"
+
+        if not broken or not result:
+            continue
+
+        raise_error(result)
+
+    return result
 
 
 def check_basic(values: dict, broken: bool) -> str:
@@ -137,6 +175,6 @@ def check_mode(values: Dict[str, Union[bool, bytes, int, str]], broken: bool) ->
 
 
 def raise_error(error: str):
-    error = "-" * 24 + f"\nBot refused to start because:\n" + "-" * 24 + f"\n{error}" + "-" * 24
+    error = "-" * 24 + "\nBot refused to start because:\n" + "-" * 24 + f"\n{error}" + "-" * 24
     logger.critical("\n" + error)
     raise SystemExit(error)

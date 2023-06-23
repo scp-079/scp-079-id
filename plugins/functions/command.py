@@ -1,5 +1,5 @@
 # SCP-079-ID - Get Telegram ID
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-ID.
 #
@@ -38,7 +38,7 @@ def command_error(client: Client, message: Message, action: str, error: str,
         # Basic data
         cid = message.chat.id
         uid = message.from_user.id
-        mid = message.message_id
+        mid = message.id
 
         # Generate the text
         if private:

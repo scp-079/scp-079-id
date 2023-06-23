@@ -1,5 +1,5 @@
 # SCP-079-ID - Get Telegram ID
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-ID.
 #
@@ -48,7 +48,7 @@ def id_group(client: Client, message: Message) -> bool:
         # Basic data
         gid = message.chat.id
         uid = message.from_user.id
-        mid = message.message_id
+        mid = message.id
 
         # Get command type
         command_type = get_command_type(message)
@@ -90,7 +90,7 @@ def id_private(client: Client, message: Message) -> bool:
     try:
         # Basic data
         cid = message.chat.id
-        mid = message.message_id
+        mid = message.id
 
         # Get command type
         command_type = get_command_type(message)
@@ -157,7 +157,7 @@ def restart(client: Client, message: Message) -> bool:
         # Basic data
         cid = message.chat.id
         aid = message.from_user.id
-        mid = message.message_id
+        mid = message.id
 
         # Get command type
         command_type = get_command_type(message)
@@ -193,7 +193,7 @@ def start(client: Client, message: Message) -> bool:
     try:
         # Basic data
         cid = message.chat.id
-        mid = message.message_id
+        mid = message.id
 
         # Check started ids
         if cid in glovar.started_ids:
@@ -234,7 +234,7 @@ def update(client: Client, message: Message) -> bool:
         # Basic data
         cid = message.chat.id
         aid = message.from_user.id
-        mid = message.message_id
+        mid = message.id
 
         # Get command type
         command_type = get_command_type(message)
@@ -272,7 +272,7 @@ def version(client: Client, message: Message) -> bool:
         # Basic data
         cid = message.chat.id
         aid = message.from_user.id
-        mid = message.message_id
+        mid = message.id
 
         # Get command type
         command_type = get_command_type(message)
@@ -294,7 +294,7 @@ def version(client: Client, message: Message) -> bool:
         git_date = get_readable_time(get_int(git_date), "%Y/%m/%d %H:%M:%S")
         git_hash = run("git rev-parse --short HEAD", stdout=PIPE, shell=True).stdout.decode()
         get_hash_link = f"https://github.com/scp-079/scp-079-{glovar.sender.lower()}/commit/{git_hash}"
-        command_date = get_readable_time(message.date, "%Y/%m/%d %H:%M:%S")
+        command_date = get_readable_time(int(message.date.timestamp()), "%Y/%m/%d %H:%M:%S")
 
         # Generate the text
         text = (f"{lang('admin')}{lang('colon')}{mention_id(aid)}\n\n"

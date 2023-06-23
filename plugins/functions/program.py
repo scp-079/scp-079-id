@@ -1,5 +1,5 @@
 # SCP-079-ID - Get Telegram ID
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-ID.
 #
@@ -46,7 +46,7 @@ def update_program() -> bool:
     try:
         service_name = getcwd().split("/")[-1]
         run(f"bash ~/scp-079/scripts/update.sh {service_name}", shell=True)
-        run(f"git pull", shell=True)
+        run("git pull", shell=True)
         kill(getpid(), SIGABRT)
     except Exception as e:
         logger.warning(f"Update program error: {e}", exc_info=True)

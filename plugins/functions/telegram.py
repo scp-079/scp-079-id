@@ -1,5 +1,5 @@
 # SCP-079-ID - Get Telegram ID
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-ID.
 #
@@ -20,6 +20,7 @@ import logging
 from typing import Iterable, List, Optional, Union
 
 from pyrogram import Client
+from pyrogram.enums import ParseMode
 from pyrogram.errors import (ChatAdminRequired, ButtonDataInvalid, ButtonUrlInvalid, ChannelInvalid, ChannelPrivate,
                              FloodWait, MessageDeleteForbidden, PeerIdInvalid,  UsernameInvalid, UsernameNotOccupied)
 from pyrogram.raw.base import InputChannel, InputUser, InputPeer
@@ -61,7 +62,7 @@ def delete_messages_100(client: Client, cid: int, mids: Iterable[int]) -> Option
         mids = list(mids)
         result = client.delete_messages(chat_id=cid, message_ids=mids)
     except FloodWait as e:
-        logger.warning(f"Delete message in {cid} - Sleep for {e.x} second(s)")
+        logger.warning(f"Delete message in {cid} - Sleep for {e.value} second(s)")
         raise e
     except MessageDeleteForbidden:
         return False
@@ -79,7 +80,7 @@ def get_chat(client: Client, cid: Union[int, str]) -> Union[Chat, ChatPreview, N
     try:
         result = client.get_chat(chat_id=cid)
     except FloodWait as e:
-        logger.warning(f"Get chat {cid} - Sleep for {e.x} second(s)")
+        logger.warning(f"Get chat {cid} - Sleep for {e.value} second(s)")
         raise e
     except (ChannelInvalid, ChannelPrivate, PeerIdInvalid):
         return None
@@ -97,7 +98,7 @@ def get_users(client: Client, uids: Iterable[Union[int, str]]) -> Optional[List[
     try:
         result = client.get_users(user_ids=uids)
     except FloodWait as e:
-        logger.warning(f"Get users {uids} - Sleep for {e.x} second(s)")
+        logger.warning(f"Get users {uids} - Sleep for {e.value} second(s)")
         raise e
     except PeerIdInvalid:
         return None
@@ -115,7 +116,7 @@ def resolve_peer(client: Client, pid: Union[int, str]) -> Union[bool, InputChann
     try:
         result = client.resolve_peer(pid)
     except FloodWait as e:
-        logger.warning(f"Resolve peer {pid} - Sleep for {e.x} second(s)")
+        logger.warning(f"Resolve peer {pid} - Sleep for {e.value} second(s)")
         raise e
     except (PeerIdInvalid, UsernameInvalid, UsernameNotOccupied):
         return False
@@ -180,13 +181,13 @@ def send_message(client: Client, cid: Union[int, str], text: str, mid: int = Non
         result = client.send_message(
             chat_id=cid,
             text=text,
-            parse_mode="html",
+            parse_mode=ParseMode.HTML,
             disable_web_page_preview=True,
             reply_to_message_id=mid,
             reply_markup=markup
         )
     except FloodWait as e:
-        logger.warning(f"Send message to {cid} - Sleep for {e.x} second(s)")
+        logger.warning(f"Send message to {cid} - Sleep for {e.value} second(s)")
         raise e
     except (ButtonDataInvalid, ButtonUrlInvalid):
         logger.warning(f"Send message to {cid} - invalid markup: {markup}")
@@ -216,7 +217,7 @@ def send_report_message(secs: int, client: Client, cid: int, text: str, mid: int
         if not result:
             return None
 
-        mid = result.message_id
+        mid = result.id
         mids = [mid]
         result = delay(secs, delete_messages, [client, cid, mids])
     except Exception as e:

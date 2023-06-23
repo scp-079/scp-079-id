@@ -1,5 +1,5 @@
 # SCP-079-ID - Get Telegram ID
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-ID.
 #
@@ -176,7 +176,7 @@ def get_full_name(user: Union[Contact, User]) -> str:
 
 
 def get_int(text: str) -> Optional[int]:
-    # Get a int from a string
+    # Get an int from a string
     result = None
 
     try:
@@ -300,7 +300,7 @@ def lang(text: str) -> str:
 
 
 def mention_id(uid: int) -> str:
-    # Get a ID mention string
+    # Get an ID mention string
     result = ""
 
     try:
@@ -342,7 +342,7 @@ def wait_flood(e: FloodWait) -> bool:
     result = False
 
     try:
-        result = sleep(e.x + uniform(0.5, 1.0)) or True
+        result = sleep(e.value + uniform(0.5, 1.0)) or True
     except Exception as e:
         logger.warning(f"Wait flood error: {e}", exc_info=True)
 

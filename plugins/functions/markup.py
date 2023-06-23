@@ -1,5 +1,5 @@
 # SCP-079-ID - Get Telegram ID
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-ID.
 #
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_inline(buttons: List[Dict[str, Union[str, bytes, CallbackGame, None]]]) -> Optional[InlineKeyboardMarkup]:
-    # Get a inline reply markup
+    # Get an inline reply markup
     result = None
 
     try:

@@ -1,5 +1,5 @@
 # SCP-079-ID - Get Telegram ID
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-ID.
 #
@@ -56,6 +56,15 @@ logger = logging.getLogger(__name__)
 # [flag]
 broken: bool = True
 
+# [pyrogram]
+api_id: int = 0
+api_hash: str = "[DATA EXPUNGED]"
+
+# [proxy]
+enabled: Union[bool, str] = "False"
+hostname: str = "127.0.0.1"
+port: int = 1080
+
 # [basic]
 bot_token: str = ""
 ipv6: Union[bool, str] = "False"
@@ -78,6 +87,16 @@ try:
     not exists(CONFIG_PATH) and raise_error(f"{CONFIG_PATH} does not exists")
     config = RawConfigParser()
     config.read(CONFIG_PATH)
+
+    # [pyrogram]
+    api_id = int(config.get("pyrogram", "api_id", fallback=api_id))
+    api_hash = config.get("pyrogram", "api_hash", fallback=api_hash)
+
+    # [proxy]
+    enabled = config.get("proxy", "enabled", fallback=enabled)
+    enabled = eval(enabled)
+    hostname = config.get("proxy", "hostname", fallback=hostname)
+    port = int(config.get("proxy", "port", fallback=port))
 
     # [basic]
     bot_token = config.get("basic", "bot_token", fallback=bot_token)
@@ -107,6 +126,15 @@ except Exception as e:
 # Check
 check_all(
     {
+        "pyrogram": {
+            "api_id": api_id,
+            "api_hash": api_hash
+        },
+        "proxy": {
+            "enabled": enabled,
+            "hostname": hostname,
+            "port": port
+        },
         "basic": {
             "bot_token": bot_token,
             "ipv6": ipv6,
@@ -127,6 +155,16 @@ check_all(
     },
     broken
 )
+
+# Postprocess - [proxy]
+if enabled:
+    proxy = {
+        "hostname": hostname,
+        "port": port,
+        "scheme": "socks5"
+    }
+else:
+    proxy = None
 
 # Language Dictionary
 lang_dict: dict = {}
@@ -218,6 +256,6 @@ for file in file_list:
         raise SystemExit("[DATA CORRUPTION]")
 
 # Start program
-copyright_text = (f"SCP-079-{sender} v{version}, Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>\n"
+copyright_text = (f"SCP-079-{sender} v{version}, Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>\n"
                   "Licensed under the terms of the GNU General Public License v3 or later (GPLv3+)\n")
 print(copyright_text)

@@ -1,5 +1,5 @@
 # SCP-079-ID - Get Telegram ID
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-ID.
 #
@@ -40,7 +40,7 @@ def id_contact(client: Client, message: Message) -> bool:
     try:
         # Basic data
         cid = message.chat.id
-        mid = message.message_id
+        mid = message.id
 
         # Check the message
         if not message.contact:
@@ -71,7 +71,7 @@ def id_forward(client: Client, message: Message) -> bool:
     try:
         # Basic data
         cid = message.chat.id
-        mid = message.message_id
+        mid = message.id
 
         # Check the message
         if not message.forward_from and not message.forward_from_chat:
